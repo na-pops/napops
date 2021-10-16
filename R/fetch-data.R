@@ -17,9 +17,9 @@
 
 fetch_data <- function(quiet = TRUE)
 {
-  # Create napops directory on disk
   napops_dir <- rappdirs::app_dir(appname = "napops")
 
+  # Create napops directory on disk if it doesn't exist
   if (isFALSE(file.exists(napops_dir$data())))
   {
     message(paste0("Creating data directory at ", napops_dir$data()))
@@ -28,6 +28,12 @@ fetch_data <- function(quiet = TRUE)
   {
     message(paste0("Using data directory at ", napops_dir$data()))
   }
+
+  # Download the date of mdoel run
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/date.txt",
+                destfile = paste0(napops_dir$data(), "/date.txt"),
+                method = "curl",
+                quiet = quiet)
 
   # Download distance coefficients
   download.file("https://raw.githubusercontent.com/na-pops/results/master/coefficients/distance.csv",
