@@ -1,4 +1,4 @@
-# napops <img src="man/figures/logo-full.png" align="right"/>
+# napops <img src="man/figures/logo.png" align="right"/>
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/napops)](https://cran.r-project.org/package=napops)
 
