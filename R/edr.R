@@ -1,6 +1,6 @@
 #' Get effective detection radius for a species
 #'
-#' \code{cue_rate} calculates the effective detection radius (EDR) for the supplied species, given the desired model,
+#' \code{edr} calculates the effective detection radius (EDR) for the supplied species, given the desired model,
 #' roadside status, and forest coverage.
 #'
 #' @param species 4-letter banding code for the desired species

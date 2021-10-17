@@ -22,6 +22,6 @@ in the range (1,5) corresponding to models 1 - 5.}
 Numeric effective detection radius for species
 }
 \description{
-\code{cue_rate} calculates the effective detection radius (EDR) for the supplied species, given the desired model,
+\code{edr} calculates the effective detection radius (EDR) for the supplied species, given the desired model,
 roadside status, and forest coverage.
 }
