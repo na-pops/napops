@@ -12,6 +12,14 @@
 #'
 #' @return None
 #'
+#' @examples
+#'
+#' # Fetch NA-POPS data from Github repository and save to disk
+#' fetch_data()
+#'
+#' # If you'd like to see details of the download, you can specify quiet = FALSE
+#' fetch_data(quiet = FALSE)
+#'
 #' @export
 #'
 

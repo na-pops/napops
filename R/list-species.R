@@ -18,7 +18,16 @@
 #'   \item{Distance}{Boolean TRUE/FALSE for species modelled by distance models. Appears only if "both" are selected for model.}
 #'   \item{n_distance}{Sample size of species for distance models. Appears only if "both" are selected for model.}
 #'
+#' @examples
 #'
+#' # Get a list of species for both models
+#' sp <- list_species()
+#'
+#' # Get a list of only species modelled using removal modelling
+#' sp_rem <- list_species(model = "rem")
+#'
+#' # Get a list of only species modelled using distance modelling
+#' sp_dis <- list_species(model = "dis")
 #' @export
 #'
 

@@ -13,3 +13,9 @@ None
 \code{check_for_updates} checks the NA-POPS Github repository to see if there
   are updated NA-POPS results compared to what is stored locally
 }
+\examples{
+
+# Check for updates to NA-POPS results
+check_for_updates()
+
+}

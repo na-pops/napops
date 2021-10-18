@@ -34,3 +34,16 @@ Probability of perceptibility
   by an observer, given that it gives a cue, dependent on the roadside status
   of a survey, forest coverage, and maximum survey distance.
 }
+\examples{
+
+# Get the probability of perceptibility for American Robin ("AMRO"), using the best model
+#   for a roadside survey under 50\% forest coverage with maximum survey distance of 200m.
+percept(species = "AMRO", model = "best", roadside = TRUE, forest = 0.5, distance = 200)
+
+# Same as previous example, but this time with the full model
+percept(species = "AMRO", model = "full", roadside = TRUE, forest = 0.5, distance = 200)
+
+# Use only roadside model, and specify offroad surveys
+percept(species = "AMRO", model = 2, roadside = FALSE, distance = 200)
+
+}

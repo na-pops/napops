@@ -24,3 +24,14 @@ Data frame with the following columns
   along with which modelling component they are covered by (removal, distance, or both),
   and the sample size for each.
 }
+\examples{
+
+# Get a list of species for both models
+sp <- list_species()
+
+# Get a list of only species modelled using removal modelling
+sp_rem <- list_species(model = "rem")
+
+# Get a list of only species modelled using distance modelling
+sp_dis <- list_species(model = "dis")
+}

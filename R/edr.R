@@ -16,6 +16,18 @@
 #'
 #' @return Numeric effective detection radius for species
 #'
+#' @examples
+#'
+#' # Get the effective detection radius for American Robin ("AMRO"), using the best model
+#' #   for a roadside survey under 50% forest coverage.
+#' edr(species = "AMRO", model = "best", roadside = TRUE, forest = 0.5)
+#'
+#' # Same as previous example, but this time with the full model
+#' edr(species = "AMRO", model = "full", roadside = TRUE, forest = 0.5)
+#'
+#' # Use only roadside model, and get EDR for offroad surveys
+#' edr(species = "AMRO", model = 2, roadside = FALSE)
+#'
 #' @export
 #'
 

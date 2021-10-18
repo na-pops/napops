@@ -25,3 +25,16 @@ Numeric cue rate for species
 \code{cue_rate} calculates the cue rate for the supplied species, given the desired model,
 ordinal day, and time since sunrise.
 }
+\examples{
+
+# Get the cue rate for American Robin ("AMRO"), using the best model
+#   on June 1 (OD = 153), 1 hour after sunrise, for a survey of 5 minutes.
+cue_rate(species = "AMRO", model = "best", od = 153, tssr = 1)
+
+# Same as previous example, but this time with the full model
+cue_rate(species = "AMRO", model = "full", od = 153, tssr = 1)
+
+# Same as previous, but this time choosing ONLY the model that considers TSSR
+cue_rate(species = "AMRO", model = 2, tssr = 1)
+
+}

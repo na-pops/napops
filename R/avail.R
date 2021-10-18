@@ -14,6 +14,18 @@
 #'
 #' @return Probability of availability
 #'
+#' @examples
+#'
+#' # Get the probability of availability for American Robin ("AMRO"), using the best model
+#' #   on June 1 (OD = 153), 1 hour after sunrise, for a survey of 5 minutes.
+#' avail(species = "AMRO", model = "best", od = 153, tssr = 1, time = 5)
+#'
+#' # Same as previous example, but this time with the full model
+#' avail(species = "AMRO", model = "full", od = 153, tssr = 1, time = 5)
+#'
+#' # Same as previous, but this time choosing ONLY the model that considers TSSR
+#' avail(species = "AMRO", model = 2, tssr = 1, time = 5)
+#'
 #' @export
 #'
 
