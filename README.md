@@ -68,15 +68,15 @@ In the following metric function definitions, these models can be referred to by
 ### Cue Rate and Availability
 Cue rate is a function of ordinal day and time since sunrise, depending on which model to use. If we wanted the cue rate of American Robin on the 153rd day of the year, 1 hour after sunrise, for the best model as chosen by AIC, we can use
 ```{.r}
-amro_cr <- cue_rate(species = "AMRO", OD = 153, TSSR = 1, model = "best")
+amro_cr <- cue_rate(species = "AMRO", od = 153, tssr = 1, model = "best")
 ```
 Alternatively, if we wanted to specifically get cue rate from model 6, we can use
 ```{.r}
-amro_cr <- cue_rate(species = "AMRO", OD = 153, TSSR = 1, model = 6)
+amro_cr <- cue_rate(species = "AMRO", od = 153, tssr = 1, model = 6)
 ```
 You can also get the availability using the same arguments as above. We also need to specify a maximum survey distance. For example, using the arguments above, for a 5 minute survey we can get availability with
 ```{.r}
-amro_avail <- avail(species = "AMRO",OD = 153, TSSR = 1, model = "best", time = 5)
+amro_avail <- avail(species = "AMRO",od = 153, tssr = 1, model = "best", time = 5)
 ```
 
 ### Effective Detection Radius and Perceptibility
