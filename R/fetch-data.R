@@ -9,6 +9,8 @@
 #'
 #' @importFrom rappdirs app_dir
 #' @importFrom utils download.file
+#' @importFrom progress progress_bar
+#' @importFrom dplyr bind_rows
 #'
 #' @return None
 #'
@@ -37,33 +39,176 @@ fetch_data <- function(quiet = TRUE)
     message(paste0("Using data directory at ", napops_dir$data()))
   }
 
-  # Download the date of mdoel run
+  ####### Download the data from Github (Task 1/2) #####
+
+  message("Downloading results from Github server (Task 1/2)")
+  pb <- progress::progress_bar$new(
+    format = "\r[:bar] :percent eta: :eta",
+    clear = FALSE,
+    total = 15,
+    width = 100)
+  pb$tick(0)
+
+  temp_dir <- tempdir()
+
+  # Download the date file and save to napops appdir
   download.file("https://raw.githubusercontent.com/na-pops/results/master/date.txt",
                 destfile = paste0(napops_dir$data(), "/date.txt"),
                 method = "curl",
                 quiet = quiet)
 
-  # Download distance coefficients
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/coefficients/distance.csv",
-                destfile = paste0(napops_dir$data(), "/distance.csv"),
+  # Download rem aic and save to temp dir
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/aic/rem_aic.rda",
+                destfile = paste0(temp_dir, "/rem_aic.rda"),
                 method = "curl",
                 quiet = quiet)
 
-  # Download distance covariance
+  # Download dis aic and save to temp dir
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/aic/dis_aic.rda",
+                destfile = paste0(temp_dir, "/dis_aic.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download distance coefficients and save to temp file
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/coefficients/distance.csv",
+                destfile = paste0(temp_dir, "/distance.csv"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download removal coefficients and save to temp file
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/coefficients/removal.csv",
+                destfile = paste0(temp_dir, "/removal.csv"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download dis_covars.rda and save to temp file
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/dis_covars.rda",
+                destfile = paste0(temp_dir, "/dis_covars.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download dis_species_summary.rda and save to temp file
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/dis_species_summary.rda",
+                destfile = paste0(temp_dir, "/dis_species_summary.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download rem_covars and save to temp file
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/rem_covars.rda",
+                destfile = paste0(temp_dir, "/rem_covars.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download rem_species_summary.rda and save to temp file
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/rem_species_summary.rda",
+                destfile = paste0(temp_dir, "/rem_species_summary.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download species_table.csv and save to temp file
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/species_table.csv",
+                destfile = paste0(temp_dir, "/species_table.csv"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download dis_coverage_bcr.rda and save to napops dir
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/dis_coverage_bcr.rda",
+                destfile = paste0(napops_dir$data(), "/dis_coverage_bcr.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download rem_coverage_bcr.rda and save to napops dir
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/rem_coverage_bcr.rda",
+                destfile = paste0(napops_dir$data(), "/rem_coverage_bcr.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download project_coverage_bcr.rda and save to napops dir
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/project_coverage_bcr.rda",
+                destfile = paste0(napops_dir$data(), "/project_coverage_bcr.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download distance covariance matrices and save to napops dir
   download.file("https://raw.githubusercontent.com/na-pops/results/master/var-covar/dis_vcv_list.rda",
                 destfile = paste0(napops_dir$data(), "/dis_vcv.rda"),
                 method = "curl",
                 quiet = quiet)
 
-  # Download removal coefficients
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/coefficients/removal.csv",
-                destfile = paste0(napops_dir$data(), "/removal.csv"),
-                method = "curl",
-                quiet = quiet)
-
-  # Download removal covariance
+  # Download removal covariance matrices and save to napops dir
   download.file("https://raw.githubusercontent.com/na-pops/results/master/var-covar/rem_vcv_list.rda",
                 destfile = paste0(napops_dir$data(), "/rem_vcv.rda"),
                 method = "curl",
                 quiet = quiet)
+
+  ##### Assemble the database (Task 2/2) ##############
+
+  message("Assembling database (Task 2/2)")
+
+  # Create the new database
+  conn <- DBI::dbConnect(RSQLite::SQLite(),
+                         paste0(napops_dir$data(), "/napops.db"))
+
+  # Add rem AIC tables to db
+  load(paste0(temp_dir, "/rem_aic.rda"))
+  DBI::dbWriteTable(conn = conn,
+                    name = "rem_aic",
+                    value = data.frame(dplyr::bind_rows(rem_aic,
+                                             .id = "Species")))
+
+  # Add dis AIC table to db
+  load(paste0(temp_dir, "/dis_aic.rda"))
+  DBI::dbWriteTable(conn = conn,
+                    name = "dis_aic",
+                    value = data.frame(dplyr::bind_rows(dis_aic,
+                                                        .id = "Species")))
+
+  # Add rem coef table to db
+  DBI::dbWriteTable(conn = conn,
+                    name = "rem_coef",
+                    value = read.csv(paste0(temp_dir, "/removal.csv")))
+
+  # Add dis coef table to db
+  DBI::dbWriteTable(conn = conn,
+                    name = "dis_coef",
+                    value = read.csv(paste0(temp_dir, "/distance.csv")))
+
+  # Add dis_covars table to db
+  load(paste0(temp_dir, "/dis_covars.rda"))
+  names(dis_covars) <- c("Forest", "Road")
+  DBI::dbWriteTable(conn = conn,
+                    name = "dis_covars",
+                    value = dis_covars)
+
+  # Add dis_species_summary to db
+  load(paste0(temp_dir, "/dis_species_summary.rda"))
+  dis_species_summary <- dplyr::bind_rows(dis_species_summary,
+                                          .id = "Species")
+  names(dis_species_summary) <- c("Species", "Forest", "Road")
+  DBI::dbWriteTable(conn = conn,
+                    name = "dis_species_summary",
+                    value = dis_species_summary)
+
+  # Add dis_covars table to db
+  load(paste0(temp_dir, "/rem_covars.rda"))
+  DBI::dbWriteTable(conn = conn,
+                    name = "rem_covars",
+                    value = rem_covars)
+
+  # Add rem_species_summary to db
+  load(paste0(temp_dir, "/rem_species_summary.rda"))
+  rem_species_summary <- dplyr::bind_rows(rem_species_summary,
+                                          .id = "Species")
+  DBI::dbWriteTable(conn = conn,
+                    name = "rem_species_summary",
+                    value = rem_species_summary)
+
+  # Add species_table table to db
+  DBI::dbWriteTable(conn = conn,
+                    name = "species",
+                    value = read.csv(paste0(temp_dir, "/species_table.csv")))
+
+  DBI::dbDisconnect(conn = conn)
+
 }
+
