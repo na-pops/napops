@@ -78,6 +78,7 @@ fetch_data <- function(quiet = TRUE)
   # Download removal coefficients and save to temp file
   download.file("https://raw.githubusercontent.com/na-pops/results/master/coefficients/removal.csv",
                 destfile = paste0(temp_dir, "/removal.csv"),
+<<<<<<< HEAD
                 method = "curl",
                 quiet = quiet)
 
@@ -129,6 +130,59 @@ fetch_data <- function(quiet = TRUE)
                 method = "curl",
                 quiet = quiet)
 
+=======
+                method = "curl",
+                quiet = quiet)
+
+  # Download dis_covars.rda and save to temp file
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/dis_covars.rda",
+                destfile = paste0(temp_dir, "/dis_covars.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download dis_species_summary.rda and save to temp file
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/dis_species_summary.rda",
+                destfile = paste0(temp_dir, "/dis_species_summary.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download rem_covars and save to temp file
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/rem_covars.rda",
+                destfile = paste0(temp_dir, "/rem_covars.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download rem_species_summary.rda and save to temp file
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/rem_species_summary.rda",
+                destfile = paste0(temp_dir, "/rem_species_summary.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download species_table.csv and save to temp file
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/species_table.csv",
+                destfile = paste0(temp_dir, "/species_table.csv"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download dis_coverage_bcr.rda and save to napops dir
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/dis_coverage_bcr.rda",
+                destfile = paste0(napops_dir$data(), "/dis_coverage_bcr.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download rem_coverage_bcr.rda and save to napops dir
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/rem_coverage_bcr.rda",
+                destfile = paste0(napops_dir$data(), "/rem_coverage_bcr.rda"),
+                method = "curl",
+                quiet = quiet)
+
+  # Download project_coverage_bcr.rda and save to napops dir
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/project_coverage_bcr.rda",
+                destfile = paste0(napops_dir$data(), "/project_coverage_bcr.rda"),
+                method = "curl",
+                quiet = quiet)
+
+>>>>>>> 808cae6ebf00bc6a37e7b4e07a63721c74de1db5
   # Download distance covariance matrices and save to napops dir
   download.file("https://raw.githubusercontent.com/na-pops/results/master/var-covar/dis_vcv_list.rda",
                 destfile = paste0(napops_dir$data(), "/dis_vcv.rda"),
