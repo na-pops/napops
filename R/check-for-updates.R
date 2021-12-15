@@ -21,9 +21,9 @@ check_for_updates <- function()
   napops_dir <- rappdirs::app_dir(appname = "napops")
 
   # Check if app directory exists yet
-  if (isFALSE(file.exists(napops_dir$data())))
+  if (isFALSE(file.exists(paste0(napops_dir$data(), "/date.txt"))))
   {
-    message("NA-POPS data does not yet exist locally. Use fetch_data() to download the most recent NA-POPS results.\n")
+    message("NA-POPS data does not yet exist locally. Use fetch_data() to download the most recent NA-POPS results.")
     return()
   }
 
@@ -37,9 +37,9 @@ check_for_updates <- function()
 
   if (local_date < remote_date)
   {
-    message("A new version of NA-POPS results are available to download! Use fetch_data() to download the most recent NA-POPS results.\n")
+    message("A new version of NA-POPS results are available to download! Use fetch_data() to download the most recent NA-POPS results.")
   }else
   {
-    message("You are using the most recent NA-POPS results.\n")
+    message("You are using the most recent NA-POPS results.")
   }
 }
