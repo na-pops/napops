@@ -164,15 +164,21 @@ fetch_data <- function(quiet = TRUE)
                     overwrite = TRUE)
 
   # Add rem coef table to db
+  coef <- read.csv(paste0(temp_dir, "/removal.csv"))
+  names(coef) <- c("Species", "N", "Model", "AIC", "Intercept", "TSSR", "TSSR2",
+                   "OD", "OD2")
   DBI::dbWriteTable(conn = napops:::napops_db,
                     name = "rem_coef",
-                    value = read.csv(paste0(temp_dir, "/removal.csv")),
+                    value = coef,
                     overwrite = TRUE)
 
   # Add dis coef table to db
+  coef <- read.csv(paste0(temp_dir, "/distance.csv"))
+  names(coef) <- c("Species", "N", "Model", "AIC", "Intercept", "Road", "Forest",
+                   "RoadForest")
   DBI::dbWriteTable(conn = napops:::napops_db,
                     name = "dis_coef",
-                    value = read.csv(paste0(temp_dir, "/distance.csv")),
+                    value = coef,
                     overwrite = TRUE)
 
   # Add dis_covars table to db
@@ -210,9 +216,12 @@ fetch_data <- function(quiet = TRUE)
                     overwrite = TRUE)
 
   # Add species_table table to db
+  sp_table <- read.csv(paste0(temp_dir, "/species_table.csv"))
+  names(sp_table) <- c("Species", "Common_Name", "Scientific_Name", "Removal",
+                       "Distance")
   DBI::dbWriteTable(conn = napops:::napops_db,
                     name = "species",
-                    value = read.csv(paste0(temp_dir, "/species_table.csv")),
+                    value = sp_table,
                     overwrite = TRUE)
 
   # Add dis_coverage_bcr to db
