@@ -38,8 +38,17 @@ rem_coef <- function(species = NULL,
 {
   # Do initial data checking
   check_data_exists()
-  check_valid_species(species = species, mod = "rem")
-  check_valid_model(model = model, mod = "rem")
+
+  if (!is.null(species))
+  {
+    check_valid_species(species = species, mod = "rem")
+  }
+
+  if (!is.null(model))
+  {
+    check_valid_model(model = model, mod = "rem")
+  }
+
 
   sql_string <- ""
 

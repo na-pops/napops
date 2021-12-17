@@ -37,8 +37,15 @@ dis_coef <- function(species = NULL,
 {
   # Do initial data checking
   check_data_exists()
-  check_valid_species(species = species, mod = "dis")
-  check_valid_model(model = model, mod = "dis")
+  if (!is.null(species))
+  {
+    check_valid_species(species = species, mod = "dis")
+  }
+
+  if (!is.null(model))
+  {
+    check_valid_model(model = model, mod = "dis")
+  }
 
   sql_string <- ""
 

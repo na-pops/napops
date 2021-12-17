@@ -16,26 +16,26 @@ build_sql_query <- function(base = NULL,
   if (!is.null(species))
   {
     sql_string <- paste0(sql_string, " WHERE Species IN (")
-  }
-  n_sp <- length(species)
-  i <- 1
-  for (s in species)
-  {
-    sql_string <- paste0(sql_string,
-                         "\"",
-                         s,
-                         "\"")
+    n_sp <- length(species)
+    i <- 1
+    for (s in species)
+    {
+      sql_string <- paste0(sql_string,
+                           "\"",
+                           s,
+                           "\"")
 
-    if (i < n_sp)
-    {
-      sql_string <- paste0(sql_string,
-                           ", ")
-    }else
-    {
-      sql_string <- paste0(sql_string,
-                           ")")
+      if (i < n_sp)
+      {
+        sql_string <- paste0(sql_string,
+                             ", ")
+      }else
+      {
+        sql_string <- paste0(sql_string,
+                             ")")
+      }
+      i <- i + 1
     }
-    i <- i + 1
   }
 
   # Build search string of selected models
