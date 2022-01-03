@@ -55,16 +55,16 @@ dis_coef <- function(species = NULL,
     {
       # Build initial search string
       sql_string <- paste0(sql_string,
-                           "SELECT Species, Model, MIN(AIC), Intercept, Road, Forest, RoadForest FROM dis_coef")
+                           "SELECT Species, N, Model, MIN(AIC), Intercept, Road, Forest, RoadForest FROM dis_coef")
     }else
     {
       sql_string <- paste0(sql_string,
-                           "SELECT Species, Model, AIC, Intercept, Road, Forest, RoadForest FROM dis_coef")
+                           "SELECT Species, N, Model, AIC, Intercept, Road, Forest, RoadForest FROM dis_coef")
     }
   }else
   {
     sql_string <- paste0(sql_string,
-                         "SELECT Species, Model, AIC, Intercept, Road, Forest, RoadForest FROM dis_coef")
+                         "SELECT Species, N, Model, AIC, Intercept, Road, Forest, RoadForest FROM dis_coef")
   }
 
   sql_string <- build_sql_query(base = sql_string,
@@ -74,7 +74,7 @@ dis_coef <- function(species = NULL,
   df <- DBI::dbGetQuery(conn = napops:::napops_db,
                         statement = sql_string)
 
-  names(df) <- c("Species", "Model", "AIC", "Intercept", "Road", "Forest", "RoadForest")
+  names(df) <- c("Species", "N", "Model", "AIC", "Intercept", "Road", "Forest", "RoadForest")
 
   return(df)
 }
