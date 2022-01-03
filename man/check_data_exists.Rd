@@ -4,7 +4,7 @@
 \alias{check_data_exists}
 \title{Check for existance of NA-POPS data}
 \usage{
-check_data_exists(species = NULL, mod = NULL)
+check_data_exists()
 }
 \value{
 None

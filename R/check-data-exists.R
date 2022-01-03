@@ -8,8 +8,7 @@
 #' @return None
 #'
 
-check_data_exists <- function(species = NULL,
-                              mod = NULL)
+check_data_exists <- function()
 {
   napops_dir <- rappdirs::app_dir(appname = "napops")
 
