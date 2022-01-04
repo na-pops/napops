@@ -4,172 +4,100 @@
 #' ordinal day, and time since sunrise.
 #'
 #' @param species 4-letter banding code for the desired species
-#' @param model Which model to use? Defaults to the "best" model,
-#'   but will accept the string "best" (for the best model as chosen by AIC),
-#'   "full" (for the full model with all covariates), or any numeric digit
-#'   in the range (1,9) corresponding to models 1 - 9.
+#' @param model Numeric or vector of model numbers ranging from 1 - 9.
 #' @param od Ordinal day, numeric digit in the range (1,365)
 #' @param tssr Time since sunrise, numeric digit in the range (-10,10)
-#'
-#' @importFrom rappdirs app_dir
-#' @importFrom utils read.csv
+#' @param pairwise If FALSE (default), returns a cue rate for every combination of OD and TSSR supplied;
+#'   if TRUE, returns cue rate for each OD/TSSR pair (and so length(od) must equal length(tssr))
+#' @param quantiles Optional range of quantiles to calculate bootstrapped uncertainty about the estimate. Defaults to NULL
+#' @param samples Number of bootstrap samples if bootstrapped uncertainty is to be calculated. Defaults to 1000
 #'
 #' @return Numeric cue rate for species
 #'
 #' @examples
 #'
-#' # Get the cue rate for American Robin ("AMRO"), using the best model
-#' #   on June 1 (OD = 153), 1 hour after sunrise, for a survey of 5 minutes.
-#' cue_rate(species = "AMRO", model = "best", od = 153, tssr = 1)
-#'
-#' # Same as previous example, but this time with the full model
-#' cue_rate(species = "AMRO", model = "full", od = 153, tssr = 1)
-#'
-#' # Same as previous, but this time choosing ONLY the model that considers TSSR
-#' cue_rate(species = "AMRO", model = 2, tssr = 1)
-#'
 #' @export
 #'
 
 cue_rate <- function(species = NULL,
-                     model = "best",
+                     model = NULL,
                      od = NULL,
-                     tssr = NULL)
+                     tssr = NULL,
+                     pairwise = FALSE,
+                     quantiles = NULL,
+                     samples = 1000)
 {
-  if (is.null(species))
+  # Do initial data checking
+  check_data_exists()
+
+  if (!is.null(species))
   {
-    stop("No argument passed for species\n")
-  }
-  napops_dir <- rappdirs::app_dir(appname = "napops")
-  # Create napops directory on disk if it doesn't exist
-  if (isFALSE(file.exists(napops_dir$data())))
-  {
-    stop("No NA-POPS data exists locally. Please use fetch_data() to download most recently NA-POPS results.\n")
+    check_valid_species(species = species, mod = "rem")
   }
 
-  removal <- read.csv(file = paste0(napops_dir$data(), "/removal.csv"))
-  species <- toupper(species)
-
-  if (isFALSE(species %in% removal$Species))
+  if (!is.null(model))
   {
-    stop(paste0("Species ", species, " does not exist in NA-POPS database.\n"))
+    check_valid_model(model = model, mod = "rem")
   }
 
-  rem_sp <- removal[which(removal$Species == species), ]
-
-  model_number <- NULL
-  if (model == "best")
+  if (pairwise)
   {
-    rem_sp <- rem_sp[1:9, ]
-    model_number <- which(rem_sp$aic == min(rem_sp$aic))
-    rem_sp <- rem_sp[which(rem_sp$model == model_number), ]
-  }else if (model == "full")
-  {
-    model_number <- 9
-    rem_sp <- rem_sp[which(rem_sp$model == 9), ]
-  }else if (is.numeric(model))
-  {
-    if (model < 1 || model > 9)
+    if (length(od) != length(tssr))
     {
-      stop(paste0(model, " is an invalid model."))
-    }else
-    {
-      model_number <- model
-      rem_sp <- rem_sp[which(rem_sp$model == model), ]
+      stop("Pairwise set to TRUE but OD and TSSR are not the same length.")
     }
+  }
+
+  if (isFALSE(pairwise))
+  {
+    tssr_values <- rep(tssr, each = length(od))
+
+    sim_data <- data.frame(Intercept = rep(1, times = length(tssr_values)),
+                           TSSR = tssr_values,
+                           OD = rep(od, length(tssr)))
   }else
   {
-    stop(paste0(model, " is an invalid model."))
+    sim_data <- data.frame(Intercept = rep(1, times = length(tssr)),
+                           TSSR = tssr,
+                           OD = od)
   }
 
-  if (model_number == 1)
+  design <- sim_data
+  tssr_median <- median(covariates_removal(project = FALSE,
+                                           species = species)$TSSR)
+  design$TSSR <- (design$TSSR - tssr_median) / 24
+  design$TSSR2 <- design$TSSR ^ 2
+
+  od_sp_median <- median(covariates_removal(project = FALSE,
+                                            species = species)$OD)
+  design$OD <- (design$OD - od_sp_median) / 365
+  design$OD2 <- design$OD ^ 2
+  design <- design[, c("Intercept", "TSSR", "TSSR2", "OD", "OD2")]
+
+  coefficients <- coef_removal(species = species,
+                               model = model)
+  coefficients <- as.numeric(coefficients[, c("Intercept","TSSR","TSSR2","OD","OD2")])
+
+  if (is.null(quantiles))
   {
-    return(exp(rem_sp$intercept))
-  }else if (model_number == 2)
+    coefficients[which(is.na(coefficients))] <- 0
+    phi <- exp(as.matrix(design) %*% coefficients)
+
+    sim_data$CR_est <- phi
+    sim_data <- sim_data[, c("TSSR", "OD", "CR_est")]
+
+    return(sim_data)
+  }else
   {
-    if (is.null(tssr))
-    {
-      stop("No argument supplied for TSSR.")
-    }
-    return(exp(rem_sp$intercept +
-                 (tssr/24) * rem_sp$tssr))
-  }else if (model_number == 3)
-  {
-    if (is.null(od))
-    {
-      stop("No argument supplied for OD.")
-    }
-    return(exp(rem_sp$intercept +
-                 (od/365) * rem_sp$jd))
-  }else if (model_number == 4)
-  {
-    if (is.null(tssr))
-    {
-      stop("No argument supplied for TSSR.")
-    }
-    return(exp(rem_sp$intercept +
-                 (tssr/24) * rem_sp$tssr +
-                 ((tssr/24)^2) * rem_sp$tssr2))
-  }else if (model_number == 5)
-  {
-    if (is.null(od))
-    {
-      stop("No argument supplied for OD.")
-    }
-    return(exp(rem_sp$intercept +
-                 (od/365) * rem_sp$jd +
-                 ((od/365)^2) * rem_sp$jd2))
-  }else if (model_number == 6)
-  {
-    if (is.null(od))
-    {
-      stop("No argument supplied for OD.")
-    }else if (is.null(tssr))
-    {
-      stop("No argument supplied for TSSR.")
-    }
-    return(exp(rem_sp$intercept +
-                 (od/365) * rem_sp$jd +
-                 (tssr/24) * rem_sp$tssr))
-  }else if (model_number == 7)
-  {
-    if (is.null(tssr))
-    {
-      stop("No argument supplied for TSSR.")
-    }else if (is.null(od))
-    {
-      stop("No argument supplied for OD.")
-    }
-    return(exp(rem_sp$intercept +
-                 (tssr/24) * rem_sp$tssr +
-                 ((tssr/24)^2) * rem_sp$tssr2 +
-                 (od/365) * rem_sp$jd))
-  }else if (model_number == 8)
-  {
-    if (is.null(od))
-    {
-      stop("No argument supplied for OD.")
-    }else if (is.null(tssr))
-    {
-      stop("No argument supplied for TSSR.")
-    }
-    return(exp(rem_sp$intercept +
-                 (od/365) * rem_sp$jd +
-                 ((od/365)^2) * rem_sp$jd2 +
-                 (tssr/24) * rem_sp$tssr))
-  }else if (model_number == 9)
-  {
-    if (is.null(od))
-    {
-      stop("No argument supplied for OD.")
-    }else if (is.null(tssr))
-    {
-      stop("No argument supplied for TSSR.")
-    }
-    return(exp(rem_sp$intercept +
-                 (od/365) * rem_sp$jd +
-                 ((od/365)^2) * rem_sp$jd2 +
-                 (tssr/24) * rem_sp$tssr +
-                 ((tssr/24)^2) * rem_sp$tssr2))
+    load(paste0(rappdirs::app_dir(appname = "napops")$data(),
+                "/rem_vcv.rda"))
+    vcv <- rem_vcv_list[[model]][[species]]
+    bootstrap <- napops:::cue_rate_bootstrap(vcv = vcv,
+                                    coefficients = coefficients,
+                                    design = design,
+                                    quantiles = quantiles,
+                                    samples = samples)
+
+    return(cbind(sim_data[, c("TSSR", "OD")], bootstrap))
   }
 }

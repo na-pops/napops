@@ -4,7 +4,7 @@
 #'   removal model combinations.
 #'
 #' @param species 4-letter banding code for the desired species
-#' @param model Numeric or vector of model numbers
+#' @param model Numeric or vector of model numbers ranging from 1 - 9.
 #'
 #' @return Dataframe of coefficients for all species and removal models selected
 #'
@@ -34,7 +34,7 @@
 #'
 
 coef_removal <- function(species = NULL,
-                     model = NULL)
+                         model = NULL)
 {
   # Do initial data checking
   check_data_exists()

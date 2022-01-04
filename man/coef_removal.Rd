@@ -9,7 +9,7 @@ coef_removal(species = NULL, model = NULL)
 \arguments{
 \item{species}{4-letter banding code for the desired species}
 
-\item{model}{Numeric or vector of model numbers}
+\item{model}{Numeric or vector of model numbers ranging from 1 - 9.}
 }
 \value{
 Dataframe of coefficients for all species and removal models selected
