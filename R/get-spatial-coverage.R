@@ -19,6 +19,8 @@
 get_spatial_coverage <- function(model = "all",
                                  species = NULL)
 {
+  sf::sf_use_s2(FALSE)
+
   # Do initial data checking
   napops:::check_data_exists()
   if (isFALSE(model %in% c("rem", "dis", "all")))
