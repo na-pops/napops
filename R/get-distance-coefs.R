@@ -1,6 +1,6 @@
 #' Get coefficients of a species for a distance model
 #'
-#' \code{dis_coef} returns a dataframe of coefficients for the selected species/
+#' \code{get_distance_coefs} returns a dataframe of coefficients for the selected species/
 #'   distance model combinations.
 #'
 #' @param species 4-letter banding code (or vector of) for the desired species
@@ -10,29 +10,29 @@
 #'
 #' @examples
 #' # Get coefficients for distance model 1 for American Robin (AMRO)
-#' coefs <- dis_coef(species = "AMRO", model = 1)
+#' coefs <- get_distance_coefs(species = "AMRO", model = 1)
 #'
 #' # Get coefficients for all distance models for American Robin (AMRO)
 #' # Option 1
-#' coefs <- dis_coef(species = "AMRO", model = seq(1,9))
+#' coefs <- get_distance_coefs(species = "AMRO", model = seq(1,9))
 #' # Option 2
-#' coefs <- dis_coef(species = "AMRO")
+#' coefs <- get_distance_coefs(species = "AMRO")
 #'
 #' # Get coefficients for American Robin, Black-throated Blue Warbler, and
 #' #  Yellow-throated Warbler for distance models 1, 4, and 5
-#' coefs <- dis_coef(species = c("AMRO", "BTBW", "YTWA"),
+#' coefs <- get_distance_coefs(species = c("AMRO", "BTBW", "YTWA"),
 #'                   model = c(1,4,5))
 #'
 #' # Get coefficients for all species for distance model 5
-#' coefs <- dis_coef(model = 5)
+#' coefs <- get_distance_coefs(model = 5)
 #'
 #' # Get coefficients for all species, for all distance models
-#' coefs <- dis_coef()
+#' coefs <- get_distance_coefs()
 #'
 #' @export
 #'
 
-dis_coef <- function(species = NULL,
+get_distance_coefs <- function(species = NULL,
                      model = NULL)
 {
   # Do initial data checking

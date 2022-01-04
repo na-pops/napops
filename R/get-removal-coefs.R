@@ -1,6 +1,6 @@
 #' Get coefficients of a species for a removal model
 #'
-#' \code{rem_coef} returns a dataframe of coefficients for the selected species/
+#' \code{get_removal_coefs} returns a dataframe of coefficients for the selected species/
 #'   removal model combinations.
 #'
 #' @param species 4-letter banding code for the desired species
@@ -11,29 +11,29 @@
 #' @examples
 #'
 #' # Get coefficients for removal model 1 for American Robin (AMRO)
-#' coefs <- rem_coef(species = "AMRO", model = 1)
+#' coefs <- get_removal_coefs(species = "AMRO", model = 1)
 #'
 #' # Get coefficients for all removal models for American Robin (AMRO)
 #' # Option 1
-#' coefs <- rem_coef(species = "AMRO", model = seq(1,9))
+#' coefs <- get_removal_coefs(species = "AMRO", model = seq(1,9))
 #' # Option 2
-#' coefs <- rem_coef(species = "AMRO")
+#' coefs <- get_removal_coefs(species = "AMRO")
 #'
 #' # Get coefficients for American Robin, Black-throated Blue Warbler, and
 #' #  Yellow-throated Warbler for removal models 1, 4, and 7
-#' coefs <- rem_coef(species = c("AMRO", "BTBW", "YTWA"),
+#' coefs <- get_removal_coefs(species = c("AMRO", "BTBW", "YTWA"),
 #'                   model = c(1,4,7))
 #'
 #' # Get coefficients for all species for removal model 9
-#' coefs <- rem_coef(model = 9)
+#' coefs <- get_removal_coefs(model = 9)
 #'
 #' # Get coefficients for all species, for all removal models
-#' coefs <- rem_coef()
+#' coefs <- get_removal_coefs()
 #'
 #' @export
 #'
 
-rem_coef <- function(species = NULL,
+get_removal_coefs <- function(species = NULL,
                      model = NULL)
 {
   # Do initial data checking
