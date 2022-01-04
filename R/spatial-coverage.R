@@ -16,7 +16,7 @@
 #' @export
 #'
 
-get_spatial_coverage <- function(model = "all",
+spatial_coverage <- function(model = "all",
                                  species = NULL)
 {
   sf::sf_use_s2(FALSE)
@@ -29,7 +29,7 @@ get_spatial_coverage <- function(model = "all",
   }
   if (length(model) > 1)
   {
-    stop("get_spatial_coverage() cannot handle multiple models.")
+    stop("spatial_coverage() cannot handle multiple models.")
   }
   if (!is.null(species))
   {

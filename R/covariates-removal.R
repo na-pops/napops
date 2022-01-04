@@ -1,6 +1,6 @@
 #' Get covariate space for removal modelling
 #'
-#' \code{get_removal_covariates} returns a dataframe of covariates that were associated
+#' \code{covariates_removal} returns a dataframe of covariates that were associated
 #'   with each sampling event in NA-POPS.
 #'
 #' @param project If TRUE, will return the set of covariates that were associated
@@ -15,12 +15,12 @@
 #'
 #' @examples
 #'
-#' rem_covars <- get_removal_covariates()
+#' rem_covars <- covariates_removal()
 #'
 #' @export
 #'
 
-get_removal_covariates <- function(project = TRUE,
+covariates_removal <- function(project = TRUE,
                                    species = NULL)
 {
   # Do initial data checking

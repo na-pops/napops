@@ -1,6 +1,6 @@
 #' Get covariate space for distance modelling
 #'
-#' \code{get_distance_covariates} returns a dataframe of covariates that were associated
+#' \code{covariates_distance} returns a dataframe of covariates that were associated
 #'   with each sampling event in NA-POPS.
 #'
 #' @param project If TRUE, will return the set of covariates that were associated
@@ -16,12 +16,12 @@
 #'
 #' @examples
 #'
-#' rem_covars <- get_distance_covariates()
+#' rem_covars <- covariates_distance()
 #'
 #' @export
 #'
 
-get_distance_covariates <- function(project = TRUE,
+covariates_distance <- function(project = TRUE,
                                    species = NULL)
 {
   # Do initial data checking
