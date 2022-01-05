@@ -5,8 +5,8 @@
 #'
 #' @param species 4-letter banding code for the desired species
 #' @param model Numeric or vector of model numbers ranging from 1 - 9.
-#' @param od Ordinal day, numeric digit in the range (1,365)
-#' @param tssr Time since sunrise, numeric digit in the range (-10,10)
+#' @param od Ordinal day, numeric digit or vector
+#' @param tssr Time since sunrise, numeric digit or vector
 #' @param pairwise If FALSE (default), returns a cue rate for every combination of OD and TSSR supplied;
 #'   if TRUE, returns cue rate for each OD/TSSR pair (and so length(od) must equal length(tssr))
 #' @param quantiles Optional range of quantiles to calculate bootstrapped uncertainty about the estimate. Defaults to NULL

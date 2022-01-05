@@ -19,9 +19,9 @@ cue_rate(
 
 \item{model}{Numeric or vector of model numbers ranging from 1 - 9.}
 
-\item{od}{Ordinal day, numeric digit in the range (1,365)}
+\item{od}{Ordinal day, numeric digit or vector}
 
-\item{tssr}{Time since sunrise, numeric digit in the range (-10,10)}
+\item{tssr}{Time since sunrise, numeric digit or vector}
 
 \item{pairwise}{If FALSE (default), returns a cue rate for every combination of OD and TSSR supplied;
 if TRUE, returns cue rate for each OD/TSSR pair (and so length(od) must equal length(tssr))}

@@ -4,21 +4,34 @@
 \alias{avail}
 \title{Get probability of availability for species}
 \usage{
-avail(species = NULL, model = "best", od = NULL, tssr = NULL, time = NULL)
+avail(
+  species = NULL,
+  model = NULL,
+  od = NULL,
+  tssr = NULL,
+  time = NULL,
+  pairwise = FALSE,
+  quantiles = NULL,
+  samples = 1000
+)
 }
 \arguments{
 \item{species}{4-letter banding code for the desired species}
 
-\item{model}{Which model to use? Defaults to the "best" model,
-but will accept the string "best" (for the best model as chosen by AIC),
-"full" (for the full model with all covariates), or any numeric digit
-in the range (1,9) corresponding to models 1 - 9.}
+\item{model}{Numeric or vector of model numbers ranging from 1 - 9.}
 
-\item{od}{Ordinal day, numeric digit in the range (1,365)}
+\item{od}{Ordinal day, numeric digit or vector}
 
-\item{tssr}{Time since sunrise, numeric digit in the range (-10,10)}
+\item{tssr}{Time since sunrise, numeric digit or vector}
 
-\item{time}{Maximum survey time in minutes}
+\item{time}{Maximum survey time in minutes, numeric digit or vector}
+
+\item{pairwise}{If FALSE (default), returns a cue rate for every combination of OD and TSSR supplied;
+if TRUE, returns probability of availability for each OD/TSSR pair (and so length(od) must equal length(tssr))}
+
+\item{quantiles}{Optional range of quantiles to calculate bootstrapped uncertainty about the estimate. Defaults to NULL}
+
+\item{samples}{Number of bootstrap samples if bootstrapped uncertainty is to be calculated. Defaults to 1000}
 }
 \value{
 Probability of availability
@@ -28,15 +41,5 @@ Probability of availability
   a cue within a maximum time range, given the day of the year and time of day.
 }
 \examples{
-
-# Get the probability of availability for American Robin ("AMRO"), using the best model
-#   on June 1 (OD = 153), 1 hour after sunrise, for a survey of 5 minutes.
-avail(species = "AMRO", model = "best", od = 153, tssr = 1, time = 5)
-
-# Same as previous example, but this time with the full model
-avail(species = "AMRO", model = "full", od = 153, tssr = 1, time = 5)
-
-# Same as previous, but this time choosing ONLY the model that considers TSSR
-avail(species = "AMRO", model = 2, tssr = 1, time = 5)
 
 }
