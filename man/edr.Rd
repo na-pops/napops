@@ -4,19 +4,32 @@
 \alias{edr}
 \title{Get effective detection radius for a species}
 \usage{
-edr(species = NULL, model = "best", roadside = NULL, forest = NULL)
+edr(
+  species = NULL,
+  model = NULL,
+  road = NULL,
+  forest = NULL,
+  pairwise = FALSE,
+  quantiles = NULL,
+  samples = 1000
+)
 }
 \arguments{
 \item{species}{4-letter banding code for the desired species}
 
-\item{model}{Which model to use? Defaults to the "best" model,
-but will accept the string "best" (for the best model as chosen by AIC),
-"full" (for the full model with all covariates), or any numeric digit
-in the range (1,5) corresponding to models 1 - 5.}
+\item{model}{Numeric or vector of model numbers ranging from 1 - 9.}
 
-\item{roadside}{Survey roadside status, boolean TRUE or FALSE}
+\item{road}{Survey roadside status, boolean TRUE or FALSE}
 
 \item{forest}{Forest coverage, proportion between 0 and 1}
+
+\item{pairwise}{If FALSE (default), returns an effective detection radius for
+every combination of Road and Forest supplied; if TRUE, returns an effective detection
+radius for each Road/Forest pair (and so length(road) must equal length(forest))}
+
+\item{quantiles}{Optional range of quantiles to calculate bootstrapped uncertainty about the estimate. Defaults to NULL}
+
+\item{samples}{Number of bootstrap samples if bootstrapped uncertainty is to be calculated. Defaults to 1000}
 }
 \value{
 Numeric effective detection radius for species
@@ -26,15 +39,5 @@ Numeric effective detection radius for species
 roadside status, and forest coverage.
 }
 \examples{
-
-# Get the effective detection radius for American Robin ("AMRO"), using the best model
-#   for a roadside survey under 50\% forest coverage.
-edr(species = "AMRO", model = "best", roadside = TRUE, forest = 0.5)
-
-# Same as previous example, but this time with the full model
-edr(species = "AMRO", model = "full", roadside = TRUE, forest = 0.5)
-
-# Use only roadside model, and get EDR for offroad surveys
-edr(species = "AMRO", model = 2, roadside = FALSE)
 
 }

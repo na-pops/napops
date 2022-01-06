@@ -4,47 +4,111 @@
 #' roadside status, and forest coverage.
 #'
 #' @param species 4-letter banding code for the desired species
-#' @param model Which model to use? Defaults to the "best" model,
-#'   but will accept the string "best" (for the best model as chosen by AIC),
-#'   "full" (for the full model with all covariates), or any numeric digit
-#'   in the range (1,5) corresponding to models 1 - 5.
-#' @param roadside Survey roadside status, boolean TRUE or FALSE
+#' @param model Numeric or vector of model numbers ranging from 1 - 9.
+#' @param road Survey roadside status, boolean TRUE or FALSE
 #' @param forest Forest coverage, proportion between 0 and 1
-#'
-#' @importFrom rappdirs app_dir
-#' @importFrom utils read.csv
+#' @param pairwise If FALSE (default), returns an effective detection radius for
+#' every combination of Road and Forest supplied; if TRUE, returns an effective detection
+#' radius for each Road/Forest pair (and so length(road) must equal length(forest))
+#' @param quantiles Optional range of quantiles to calculate bootstrapped uncertainty about the estimate. Defaults to NULL
+#' @param samples Number of bootstrap samples if bootstrapped uncertainty is to be calculated. Defaults to 1000
 #'
 #' @return Numeric effective detection radius for species
 #'
 #' @examples
 #'
-#' # Get the effective detection radius for American Robin ("AMRO"), using the best model
-#' #   for a roadside survey under 50% forest coverage.
-#' edr(species = "AMRO", model = "best", roadside = TRUE, forest = 0.5)
-#'
-#' # Same as previous example, but this time with the full model
-#' edr(species = "AMRO", model = "full", roadside = TRUE, forest = 0.5)
-#'
-#' # Use only roadside model, and get EDR for offroad surveys
-#' edr(species = "AMRO", model = 2, roadside = FALSE)
-#'
 #' @export
 #'
 
 edr <- function(species = NULL,
-                model = "best",
-                roadside = NULL,
-                forest = NULL)
+                model = NULL,
+                road = NULL,
+                forest = NULL,
+                pairwise = FALSE,
+                quantiles = NULL,
+                samples = 1000)
 {
+  # Do initial data checking
+  check_data_exists()
+
+  if (!is.null(species))
+  {
+    check_valid_species(species = species, mod = "dis")
+  }
+
+  if (!is.null(model))
+  {
+    check_valid_model(model = model, mod = "dis")
+  }
+
+  if (pairwise)
+  {
+    if (length(road) != length(forest))
+    {
+      stop("Pairwise set to TRUE but Road and Forest are not the same length.")
+    }
+  }
+
+  if (isFALSE(pairwise))
+  {
+    forest_values <- rep(forest, each = length(road))
+
+    sim_data <- data.frame(Intercept = rep(1, times = length(forest_values)),
+                           Forest = forest_values,
+                           Road = as.integer(rep(road, length(forest))))
+  }else
+  {
+    sim_data <- data.frame(Intercept = rep(1, times = length(forest)),
+                           Forest = forest,
+                           Road = as.integer(road))
+  }
+  sim_data$RoadForest <- sim_data$Road * sim_data$Forest
+
+  design <- sim_data
+
+  coefficients <- coef_distance(species = species,
+                                model = model)
+  coefficients <- as.numeric(coefficients[, c("Intercept","Road","Forest","RoadForest")])
+
+  if (is.null(quantiles))
+  {
+    coefficients[which(is.na(coefficients))] <- 0
+    tau <- exp(as.matrix(design) %*% coefficients)
+
+    sim_data$EDR_est <- tau
+    sim_data <- sim_data[, c("Road", "Forest", "EDR_est")]
+
+    return(sim_data)
+  }else
+  {
+    load(paste0(rappdirs::app_dir(appname = "napops")$data(),
+                "/dis_vcv.rda"))
+    vcv <- dis_vcv_list[[model]][[species]]
+    bootstrap_df <- napops:::bootstrap(vcv = vcv,
+                                      coefficients = coefficients,
+                                      design = design,
+                                      quantiles = quantiles,
+                                      samples = samples,
+                                      model = "dis")
+
+    return(cbind(sim_data[, c("Road", "Forest")], bootstrap_df))
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
   if (is.null(species))
   {
     stop("No argument passed for species\n")
-  }
-  napops_dir <- rappdirs::app_dir(appname = "napops")
-  # Create napops directory on disk if it doesn't exist
-  if (isFALSE(file.exists(napops_dir$data())))
-  {
-    stop("No NA-POPS data exists locally. Please use fetch_data() to download most recently NA-POPS results.\n")
   }
 
   distance <- read.csv(file = paste0(napops_dir$data(), "/distance.csv"))
