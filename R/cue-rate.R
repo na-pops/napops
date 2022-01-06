@@ -92,12 +92,13 @@ cue_rate <- function(species = NULL,
     load(paste0(rappdirs::app_dir(appname = "napops")$data(),
                 "/rem_vcv.rda"))
     vcv <- rem_vcv_list[[model]][[species]]
-    bootstrap <- napops:::cue_rate_bootstrap(vcv = vcv,
-                                    coefficients = coefficients,
-                                    design = design,
-                                    quantiles = quantiles,
-                                    samples = samples)
+    bootstrap_df <- napops:::bootstrap(vcv = vcv,
+                                      coefficients = coefficients,
+                                      design = design,
+                                      quantiles = quantiles,
+                                      samples = samples,
+                                      model = "rem")
 
-    return(cbind(sim_data[, c("TSSR", "OD")], bootstrap))
+    return(cbind(sim_data[, c("TSSR", "OD")], bootstrap_df))
   }
 }
