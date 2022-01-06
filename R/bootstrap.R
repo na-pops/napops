@@ -1,6 +1,6 @@
 #' Get cue rate for a species
 #'
-#' \code{cue_rate} calculates the cue rate for the supplied species, given the desired model,
+#' \code{bootstrap} calculates the cue rate for the supplied species, given the desired model,
 #' ordinal day, and time since sunrise.
 #'
 #' @param species 4-letter banding code for the desired species
@@ -17,11 +17,12 @@
 #' @examples
 #'
 
-cue_rate_bootstrap <- function(vcv = NULL,
-                               coefficients = NULL,
-                               design = NULL,
-                               quantiles = NULL,
-                               samples = 1000)
+bootstrap <- function(vcv = NULL,
+                      coefficients = NULL,
+                      design = NULL,
+                      quantiles = NULL,
+                      samples = 1000,
+                      model = NULL)
 {
   zeros_indices <- which(is.na(coefficients)) - 1
   if (length(zeros_indices) > 0)
@@ -57,7 +58,15 @@ cue_rate_bootstrap <- function(vcv = NULL,
     phi_pred <- exp(as.matrix(design) %*% (coef_zeros))
 
     warning("Could not calculate bootstrapped uncertainty for this species. Covariance matrix is not positive semi-definite. Returning only estimate.")
-    return(data.frame(CR_est = phi_pred))
+
+    if (model == "rem")
+    {
+      return(data.frame(CR_est = phi_pred))
+    }else if (model == "dis")
+    {
+      return(data.frame(EDR_est = phi_pred))
+    }
+
   }else
   {
     # Add columns of zeros back in to where NA coefficients were previously
@@ -83,16 +92,26 @@ cue_rate_bootstrap <- function(vcv = NULL,
 
     for (q in 1:length(quantiles))
     {
-      phi_quantiles[,q] <- as.numeric(apply(phi_pred,
-                                        1,
-                                        quantile,
-                                        probs = quantiles[q],
-                                        na.rm = TRUE))
+      phi_quantiles[,q] <- quantile(phi_pred,
+                                    probs = quantiles[q],
+                                    na.rm = TRUE)
+      # as.numeric(apply(vector(phi_pred),
+      #                                   1,
+      #                                   quantile,
+      #                                   probs = quantiles[q],
+      #                                   na.rm = TRUE))
     }
     phi_quantiles <- as.data.frame(phi_quantiles)
-    names(phi_quantiles) <- paste0("CR_", quantiles * 100)
 
-    return(cbind(data.frame(CR_est = phi), phi_quantiles))
+    if (model == "rem")
+    {
+      names(phi_quantiles) <- paste0("CR_", quantiles * 100)
+      return(cbind(data.frame(CR_est = phi), phi_quantiles))
+    }else if (model == "dis")
+    {
+      names(phi_quantiles) <- paste0("EDR_", quantiles * 100)
+      return(cbind(data.frame(EDR_est = phi), phi_quantiles))
+    }
   }
 }
 
