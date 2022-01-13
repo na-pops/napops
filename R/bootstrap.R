@@ -92,14 +92,11 @@ bootstrap <- function(vcv = NULL,
 
     for (q in 1:length(quantiles))
     {
-      phi_quantiles[,q] <- quantile(phi_pred,
-                                    probs = quantiles[q],
-                                    na.rm = TRUE)
-      # as.numeric(apply(vector(phi_pred),
-      #                                   1,
-      #                                   quantile,
-      #                                   probs = quantiles[q],
-      #                                   na.rm = TRUE))
+      phi_quantiles[,q] <- as.numeric(apply(phi_pred,
+                                       1,
+                                       quantile,
+                                       probs = c(quantiles[q]),
+                                       na.rm = TRUE))
     }
     phi_quantiles <- as.data.frame(phi_quantiles)
 
