@@ -6,8 +6,8 @@
 \usage{
 percept(
   species = NULL,
-  model = "best",
-  roadside = NULL,
+  model = NULL,
+  road = NULL,
   forest = NULL,
   distance = NULL
 )
@@ -15,16 +15,20 @@ percept(
 \arguments{
 \item{species}{4-letter banding code for the desired species}
 
-\item{model}{Which model to use? Defaults to the "best" model,
-but will accept the string "best" (for the best model as chosen by AIC),
-"full" (for the full model with all covariates), or any numeric digit
-in the range (1,5) corresponding to models 1 - 5.}
+\item{model}{Numeric or vector of model numbers ranging from 1 - 9.}
 
-\item{roadside}{Survey roadside status, boolean TRUE or FALSE}
+\item{road}{Survey roadside status, boolean TRUE or FALSE}
 
 \item{forest}{Forest coverage, proportion between 0 and 1}
 
 \item{distance}{Maximum survey distance in metres}
+
+\item{pairwise}{If FALSE (default), returns perceptibility for every combination of Road and Forest supplied;
+if TRUE, returns perceptibility for each Road/Forest pair (and so length(road) must equal length(forest))}
+
+\item{quantiles}{Optional range of quantiles to calculate bootstrapped uncertainty about the estimate. Defaults to NULL}
+
+\item{samples}{Number of bootstrap samples if bootstrapped uncertainty is to be calculated. Defaults to 1000}
 }
 \value{
 Probability of perceptibility
@@ -36,14 +40,8 @@ Probability of perceptibility
 }
 \examples{
 
-# Get the probability of perceptibility for American Robin ("AMRO"), using the best model
-#   for a roadside survey under 50\% forest coverage with maximum survey distance of 200m.
-percept(species = "AMRO", model = "best", roadside = TRUE, forest = 0.5, distance = 200)
-
-# Same as previous example, but this time with the full model
-percept(species = "AMRO", model = "full", roadside = TRUE, forest = 0.5, distance = 200)
-
+# Get the probability of perceptibility for American Robin ("AMRO"), using Model 2
 # Use only roadside model, and specify offroad surveys
-percept(species = "AMRO", model = 2, roadside = FALSE, distance = 200)
+percept(species = "AMRO", model = 2, road = FALSE, distance = 200)
 
 }

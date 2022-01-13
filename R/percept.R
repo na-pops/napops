@@ -5,57 +5,60 @@
 #'   of a survey, forest coverage, and maximum survey distance.
 #'
 #' @param species 4-letter banding code for the desired species
-#' @param model Which model to use? Defaults to the "best" model,
-#'   but will accept the string "best" (for the best model as chosen by AIC),
-#'   "full" (for the full model with all covariates), or any numeric digit
-#'   in the range (1,5) corresponding to models 1 - 5.
-#' @param roadside Survey roadside status, boolean TRUE or FALSE
+#' @param model Numeric or vector of model numbers ranging from 1 - 9.
+#' @param road Survey roadside status, boolean TRUE or FALSE
 #' @param forest Forest coverage, proportion between 0 and 1
 #' @param distance Maximum survey distance in metres
+#' @param pairwise If FALSE (default), returns perceptibility for every combination of Road and Forest supplied;
+#'   if TRUE, returns perceptibility for each Road/Forest pair (and so length(road) must equal length(forest))
+#' @param quantiles Optional range of quantiles to calculate bootstrapped uncertainty about the estimate. Defaults to NULL
+#' @param samples Number of bootstrap samples if bootstrapped uncertainty is to be calculated. Defaults to 1000
+#'
 #'
 #' @return Probability of perceptibility
 #'
 #' @examples
 #'
-#' # Get the probability of perceptibility for American Robin ("AMRO"), using the best model
-#' #   for a roadside survey under 50% forest coverage with maximum survey distance of 200m.
-#' percept(species = "AMRO", model = "best", roadside = TRUE, forest = 0.5, distance = 200)
-#'
-#' # Same as previous example, but this time with the full model
-#' percept(species = "AMRO", model = "full", roadside = TRUE, forest = 0.5, distance = 200)
-#'
+#' # Get the probability of perceptibility for American Robin ("AMRO"), using Model 2
 #' # Use only roadside model, and specify offroad surveys
-#' percept(species = "AMRO", model = 2, roadside = FALSE, distance = 200)
+#' percept(species = "AMRO", model = 2, road = FALSE, distance = 200)
 #'
 #' @export
 #'
 
 percept <- function(species = NULL,
-                    model = "best",
-                    roadside = NULL,
+                    model = NULL,
+                    road = NULL,
                     forest = NULL,
-                    distance = NULL)
+                    distance = NULL,
+                    pairwise = FALSE,
+                    quantiles = NULL,
+                    samples = 1000)
 {
   # All the error checking is done in edr, which will be called in
   #   this function. Only parameter to check is the distance parameter.
 
-  if (is.null(distance))
-  {
-    stop("Maximum survey distance in metres must be supplied.")
-  }
+  edr_df <- edr(species = species,
+                model = model,
+                road = road,
+                forest = forest,
+                pairwise = pairwise,
+                quantiles = quantiles,
+                samples = samples)
 
-  tau <- tryCatch(
-    {
-      edr(species, model, roadside, forest)
-    },
-    error = function(cond)
-    {
-      stop(cond)
-    }
-  )
+  tau <- edr_df[, 3:ncol(edr_df)]
 
   q <- (pi * tau^2 * (1 - exp(-distance^2 / tau^2))) /
     (pi * distance^2)
+
+  names(q)[1] <- "q_est"
+
+  if (ncol(q) > 1)
+  {
+    names(q)[2:ncol(q)] <- paste0("q_", quantiles * 100)
+  }
+
+  q <- cbind(edr_df[, 1:2], q)
 
   return(q)
 }
