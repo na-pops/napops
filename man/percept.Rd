@@ -9,7 +9,10 @@ percept(
   model = NULL,
   road = NULL,
   forest = NULL,
-  distance = NULL
+  distance = NULL,
+  pairwise = FALSE,
+  quantiles = NULL,
+  samples = 1000
 )
 }
 \arguments{

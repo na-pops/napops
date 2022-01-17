@@ -68,7 +68,7 @@ edr <- function(species = NULL,
 
   coefficients <- coef_distance(species = species,
                                 model = model)
-  coefficients <- as.numeric(coefficients[, c("Intercept","Road","Forest","RoadForest")])
+  coefficients <- as.numeric(coefficients[, c("Intercept","Forest","Road","RoadForest")])
 
   if (is.null(quantiles))
   {
