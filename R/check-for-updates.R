@@ -28,12 +28,10 @@ check_for_updates <- function()
   }
 
   # Load the local data date
-  local_date <- as.Date(readChar(paste0(napops_dir$data(), "/date.txt"),
-                                 file.info(paste0(napops_dir$data(), "/date.txt"))$size))
+  local_date <- as.Date(readChar(paste0(napops_dir$data(), "/date.txt"), nchars = 16))
 
   remote_url <- "https://raw.githubusercontent.com/na-pops/results/master/date.txt"
-  remote_date <- as.Date(readChar(remote_url,
-                                  file.info(paste0(napops_dir$data(), "/date.txt"))$size + 5))
+  remote_date <- as.Date(readChar(remote_url, nchars = 16))
 
   if (local_date < remote_date)
   {

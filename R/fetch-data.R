@@ -183,7 +183,7 @@ fetch_data <- function(quiet = TRUE)
 
   # Add dis_covars table to db
   load(paste0(temp_dir, "/dis_covars.rda"))
-  names(dis_covars) <- c("Forest", "Road")
+  names(dis_covars) <- c("Forest", "Road", "Survey_Method")
   DBI::dbWriteTable(conn = napops:::napops_db,
                     name = "dis_covars",
                     value = dis_covars,
@@ -193,7 +193,7 @@ fetch_data <- function(quiet = TRUE)
   load(paste0(temp_dir, "/dis_species_summary.rda"))
   dis_species_summary <- dplyr::bind_rows(dis_species_summary,
                                           .id = "Species")
-  names(dis_species_summary) <- c("Species", "Forest", "Road")
+  names(dis_species_summary) <- c("Species", "Forest", "Road", "Survey_Method")
   DBI::dbWriteTable(conn = napops:::napops_db,
                     name = "dis_species_summary",
                     value = dis_species_summary,
@@ -201,6 +201,7 @@ fetch_data <- function(quiet = TRUE)
 
   # Add dis_covars table to db
   load(paste0(temp_dir, "/rem_covars.rda"))
+  names(rem_covars) <- c("OD", "TSSR", "Survey_Method")
   DBI::dbWriteTable(conn = napops:::napops_db,
                     name = "rem_covars",
                     value = rem_covars,
@@ -210,6 +211,7 @@ fetch_data <- function(quiet = TRUE)
   load(paste0(temp_dir, "/rem_species_summary.rda"))
   rem_species_summary <- dplyr::bind_rows(rem_species_summary,
                                           .id = "Species")
+  names(rem_species_summary) <- c("Species", "OD", "TSSR", "Survey_Method")
   DBI::dbWriteTable(conn = napops:::napops_db,
                     name = "rem_species_summary",
                     value = rem_species_summary,
