@@ -1,0 +1,78 @@
+Method,Level,Range,Description,Start_Duration,End_Duration,Max_Duration
+ZZ,99,NA,NA,NA,NA,NA
+A,1,0-2,"0-2, 1 minute intervals up to 10 mins",0,2,10
+A,2,2-3,"0-2, 1 minute intervals up to 10 mins",2,3,10
+A,3,3-4,"0-2, 1 minute intervals up to 10 mins",3,4,10
+A,4,4-5,"0-2, 1 minute intervals up to 10 mins",4,5,10
+A,5,5-6,"0-2, 1 minute intervals up to 10 mins",5,6,10
+A,6,6-7,"0-2, 1 minute intervals up to 10 mins",6,7,10
+A,7,7-8,"0-2, 1 minute intervals up to 10 mins",7,8,10
+A,8,8-9,"0-2, 1 minute intervals up to 10 mins",8,9,10
+A,9,9-10,"0-2, 1 minute intervals up to 10 mins",9,10,10
+B,1,0-1,"0-1, 1-2, 2-3",0,1,3
+B,2,1-2,"0-1, 1-2, 2-3",1,2,3
+B,3,2-3,"0-1, 1-2, 2-3",2,3,3
+C,1,0-3,"0-3, 3-5, 5-10 min",0,3,10
+C,2,3-5,"0-3, 3-5, 5-10 min",3,5,10
+C,3,5-10,"0-3, 3-5, 5-10 min",5,10,10
+D,1,0-10,0-10 min,0,10,10
+E,1,0-5,0-5 min,0,5,5
+F,1,0-3.33,"0-3.33, 3.33-6.66, 6.66-10",0,3.33,10
+F,2,3.33-6.66,"0-3.33, 3.33-6.66, 6.66-10",3.33,6.66,10
+F,3,6.66-10,"0-3.33, 3.33-6.66, 6.66-10",6.66,10,10
+G,1,0-3,0-3,0,3,3
+H,1,0-5,"0-5, 5-10",0,5,10
+H,2,5-10,"0-5, 5-10",5,10,10
+I,1,0-3,"0-3, 3-10",0,3,10
+I,2,3-10,"0-3, 3-10",3,10,10
+J,1,0-3,"0-3, 3-5",0,3,5
+J,2,3-5,"0-3, 3-5",3,5,5
+K,1,0-3,"0-3, 3-7, 7-10",0,3,10
+K,2,3-7,"0-3, 3-7, 7-10",3,7,10
+K,3,7-10,"0-3, 3-7, 7-10",7,10,10
+L,1,0-2,0-2,0,2,2
+M,1,0-1,1 min intervals to 10 mins,0,1,10
+M,2,1-2,1 min intervals to 10 mins,1,2,10
+M,3,2-3,1 min intervals to 10 mins,2,3,10
+M,4,3-4,1 min intervals to 10 mins,3,4,10
+M,5,4-5,1 min intervals to 10 mins,4,5,10
+M,6,5-6,1 min intervals to 10 mins,5,6,10
+M,7,6-7,1 min intervals to 10 mins,6,7,10
+M,8,7-8,1 min intervals to 10 mins,7,8,10
+M,9,8-9,1 min intervals to 10 mins,8,9,10
+M,10,9-10,1 min intervals to 10 mins,9,10,10
+O,1,0-2,"0-2, 2-4, 4-5, 5-6",0,2,6
+O,2,2-4,"0-2, 2-4, 4-5, 5-6",2,4,6
+O,3,4-5,"0-2, 2-4, 4-5, 5-6",4,5,6
+O,4,5-6,"0-2, 2-4, 4-5, 5-6",5,6,6
+P,1,0-1.66,"0-1.66, 1.66-3.33, 3.33-5",0,1.66,5
+P,2,1.66-3.33,"0-1.66, 1.66-3.33, 3.33-5",1.66,3.33,5
+P,3,3.33-5,"0-1.66, 1.66-3.33, 3.33-5",3.33,5,5
+Q,1,0-1,1 min intervals to 5 mins,0,1,5
+Q,2,1-2,1 min intervals to 5 mins,1,2,5
+Q,3,2-3,1 min intervals to 5 mins,2,3,5
+Q,4,3-4,1 min intervals to 5 mins,3,4,5
+Q,5,4-5,1 min intervals to 5 mins,4,5,5
+R,1,0-1,1 min intervals to 6 mins,0,1,6
+R,2,1-2,1 min intervals to 6 mins,1,2,6
+R,3,2-3,1 min intervals to 6 mins,2,3,6
+R,4,3-4,1 min intervals to 6 mins,3,4,6
+R,5,4-5,1 min intervals to 6 mins,4,5,6
+R,6,5-6,1 min intervals to 6 mins,5,6,6
+S,1,0-6,0-6 min,0,6,6
+T,1,0-1,1 min intervals to 9 mins,0,1,9
+T,2,1-2,1 min intervals to 9 mins,1,2,9
+T,3,2-3,1 min intervals to 9 mins,2,3,9
+T,4,3-4,1 min intervals to 9 mins,3,4,9
+T,5,4-5,1 min intervals to 9 mins,4,5,9
+T,6,5-6,1 min intervals to 9 mins,5,6,9
+T,7,6-7,1 min intervals to 9 mins,6,7,9
+T,8,7-8,1 min intervals to 9 mins,7,8,9
+T,9,8-9,1 min intervals to 9 mins,8,9,9
+U,1,0-8,0-8 min,0,8,8
+V,1,0-5,"0-5, 5-8",0,5,8
+V,2,5-8,"0-5, 5-8",5,8,8
+W,1,0-3,"0-3, 3-5, 5-8, 8-10",0,3,10
+W,2,3-5,"0-3, 3-5, 5-8, 8-10",3,5,10
+W,3,5-8,"0-3, 3-5, 5-8, 8-10",5,8,10
+W,4,8-10,"0-3, 3-5, 5-8, 8-10",8,10,10
