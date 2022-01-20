@@ -30,5 +30,7 @@ max_survey_radius <- function(code = NULL)
   }
   survey <- survey[!duplicated(survey$Method),]
 
-  return(survey[survey$Method == code, ncol(survey)])
+  indices <- match(code, survey$Method)
+
+  return(survey[indices, "Max_Distance"])
 }
