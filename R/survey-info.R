@@ -51,10 +51,12 @@ survey_info <- function(code = NULL,
     stop("Invalid survey code. Use covariates_removal() or covariates_distance() to get valid survey codes.")
   }
 
+  survey <- survey[!duplicated(survey$Method),]
+
   to_return <- list(Method = toupper(code),
                     Model = model,
-                    Description = survey[survey$Method == code, "Description"][1],
-                    Max_Interval = survey[survey$Method == code, ncol(survey)][1])
+                    Description = survey[survey$Method == code, "Description"],
+                    Max_Interval = survey[survey$Method == code, ncol(survey)])
 
   if (model == "rem")
   {
