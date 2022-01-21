@@ -4,11 +4,7 @@
 \alias{list_species}
 \title{View a list of species modelled in NA-POPS}
 \usage{
-list_species(model = "both")
-}
-\arguments{
-\item{model}{Return species for both models (\code{model = "both"}, default), removal
-models only (\code{model = "rem"}), or distance models only (\code{model = "dis"}).}
+list_species()
 }
 \value{
 Data frame with the following columns
@@ -26,12 +22,7 @@ Data frame with the following columns
 }
 \examples{
 
-# Get a list of species for both models
+# Get a list of species modelled in NA-POPS
 sp <- list_species()
 
-# Get a list of only species modelled using removal modelling
-sp_rem <- list_species(model = "rem")
-
-# Get a list of only species modelled using distance modelling
-sp_dis <- list_species(model = "dis")
 }
