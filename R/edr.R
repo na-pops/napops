@@ -49,6 +49,23 @@ edr <- function(species = NULL,
     }
   }
 
+  sp_covars <- napops:::covariates_distance(project = FALSE,
+                                            species = species)
+
+  if (!is.null(forest))
+  {
+    if (any(forest > 1) || any(forest < 0))
+    {
+      stop("Forest coverage values must be between 0 and 1.")
+    }
+
+    forest_range <- range(sp_covars$Forest)
+    if (any(forest < forest_range[1]) || any(forest > forest_range[2]))
+    {
+      warning(paste0("You are providing some Forest Coverage values that are outside the training values of [", forest_range[1], ",", forest_range[2], "] for species ", species))
+    }
+  }
+
   if (isFALSE(pairwise))
   {
     forest_values <- rep(forest, each = length(road))

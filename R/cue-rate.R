@@ -48,6 +48,28 @@ cue_rate <- function(species = NULL,
     }
   }
 
+  sp_covars <- napops:::covariates_removal(project = FALSE,
+                                           species = species)
+  if (!is.null(od))
+  {
+    od_range <- range(sp_covars$OD)
+
+    if (any(od < od_range[1]) || any(od > od_range[2]))
+    {
+      warning(paste0("You are providing some OD values that are outside the training values of [", od_range[1], ",", od_range[2], "] for species ", species))
+    }
+  }
+
+  if (!is.null(tssr))
+  {
+    tssr_range <- range(sp_covars$TSSR)
+
+    if (any(tssr < tssr_range[1]) || any(tssr > tssr_range[2]))
+    {
+      warning(paste0("You are providing some TSSR values that are outside the training values of [", tssr_range[1], ",", tssr_range[2], "] for species ", species))
+    }
+  }
+
   if (isFALSE(pairwise))
   {
     tssr_values <- rep(tssr, each = length(od))
