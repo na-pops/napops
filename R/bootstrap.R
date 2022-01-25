@@ -41,7 +41,7 @@ bootstrap <- function(vcv = NULL,
     }
   )
 
-  if (is.na(sim_coef))
+  if (is.na(sim_coef[1]))
   {
     # In the case of an error, just output the calculated phi and NA
     # for the upper and lower

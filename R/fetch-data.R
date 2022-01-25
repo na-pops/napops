@@ -113,6 +113,12 @@ fetch_data <- function(quiet = TRUE)
                 method = "curl",
                 quiet = quiet)
 
+  # Download summary_statistics.rda and save to napops dir
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/summary_statistics.rda",
+                destfile = paste0(napops_dir$data(), "/summary_statistics.rda"),
+                method = "curl",
+                quiet = quiet)
+
   # Download dis_coverage_bcr.rda and save to temp dir
   download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/dis_coverage_bcr.rda",
                 destfile = paste0(temp_dir, "/dis_coverage_bcr.rda"),
