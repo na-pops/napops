@@ -11,8 +11,8 @@ List with the following entries:
   \item{Date}{Date that the models were run (functions as the version)}
   \item{Observations}{Number of landbird observations}
   \item{Samples}{Total number of point counts analysed}
-  \item{Rem_Samples}{Total number of point counts with removal sampling}
-  \item{Dis_Samples}{Total number of point counts with distance sampling}
+  \item{Samples_Removal}{Total number of point counts with removal sampling}
+  \item{Samples_Distance}{Total number of point counts with distance sampling}
   \item{Projects}{Total number of projects compiled in NA-POPS database}
   \item{Species}{Total number of species that have cue rates or effective detection radius derived}
 }

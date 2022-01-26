@@ -113,6 +113,12 @@ fetch_data <- function(quiet = TRUE)
                 method = "curl",
                 quiet = quiet)
 
+  # Download project_list.csv and save to temp file
+  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/project_list.csv",
+                destfile = paste0(temp_dir, "/project_list.csv"),
+                method = "curl",
+                quiet = quiet)
+
   # Download summary_statistics.rda and save to napops dir
   download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/summary_statistics.rda",
                 destfile = paste0(napops_dir$data(), "/summary_statistics.rda"),
@@ -225,11 +231,18 @@ fetch_data <- function(quiet = TRUE)
 
   # Add species_table table to db
   sp_table <- read.csv(paste0(temp_dir, "/species_table.csv"))
-  names(sp_table) <- c("Species", "Common_Name", "Scientific_Name", "Removal",
+  names(sp_table) <- c("Species", "Common_Name", "Scientific_Name", "Family", "Removal",
                        "Distance")
   DBI::dbWriteTable(conn = napops:::napops_db,
                     name = "species",
                     value = sp_table,
+                    overwrite = TRUE)
+
+  # Add project_list table to db
+  project_list <- read.csv(paste0(temp_dir, "/project_list.csv"))
+  DBI::dbWriteTable(conn = napops:::napops_db,
+                    name = "projects",
+                    value = project_list,
                     overwrite = TRUE)
 
   # Add dis_coverage_bcr to db

@@ -4,8 +4,7 @@
 #'   along with which modelling component they are covered by (removal, distance, or both),
 #'   and the sample size for each.
 #'
-#' @importFrom rappdirs app_dir
-#' @importFrom utils download.file
+#' @importFrom DBI dbGetQuery
 #'
 #' @return Data frame with the following columns
 #'   \item{Species}{Species 4-letter code of species}
