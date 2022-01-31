@@ -11,7 +11,8 @@ Imports:
   DBI,
   RSQLite,
   dplyr,
-  progress
+  MASS,
+  stats
 NeedsCompilation: no
 Description: Access point count offsets for North American landbirds.
 License: MIT + file LICENSE

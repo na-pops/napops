@@ -6,6 +6,8 @@
 #' @param species 4-letter banding code (or vector of) for the desired species
 #' @param model Numeric or vector of model numbers
 #'
+#' @importFrom DBI dbGetQuery
+#'
 #' @return Dataframe of coefficients for all species and distance models selected
 #'
 #' @examples
@@ -14,7 +16,7 @@
 #'
 #' # Get coefficients for all distance models for American Robin (AMRO)
 #' # Option 1
-#' coefs <- coef_distance(species = "AMRO", model = seq(1,9))
+#' coefs <- coef_distance(species = "AMRO", model = seq(1,5))
 #' # Option 2
 #' coefs <- coef_distance(species = "AMRO")
 #'
@@ -33,7 +35,7 @@
 #'
 
 coef_distance <- function(species = NULL,
-                     model = NULL)
+                          model = NULL)
 {
   # Do initial data checking
   check_data_exists()

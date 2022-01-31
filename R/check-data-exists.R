@@ -1,6 +1,6 @@
 #' Check for existance of NA-POPS data
 #'
-#' \code{check_data_exists} is an internal function that checks for the existance of
+#' \code{check_data_exists} is an internal function that checks for the existence of
 #'   NA-POPS data on the user's machine
 #'
 #' @importFrom rappdirs app_dir

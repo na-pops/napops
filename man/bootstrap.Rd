@@ -2,7 +2,7 @@
 % Please edit documentation in R/bootstrap.R
 \name{bootstrap}
 \alias{bootstrap}
-\title{Get cue rate for a species}
+\title{Bootstrap estimates, internal function}
 \usage{
 bootstrap(
   vcv = NULL,
@@ -14,27 +14,24 @@ bootstrap(
 )
 }
 \arguments{
-\item{quantiles}{Optional range of quantiles to calculate bootstrapped uncertainty about the estimate. Defaults to NULL}
+\item{vcv}{Variance-covariance matrix}
 
-\item{samples}{Number of bootstrap samples if bootstrapped uncertainty is to be calculated. Defaults to 1000}
+\item{coefficients}{Point estimates of coefficients to bootstrap around}
 
-\item{model}{Numeric or vector of model numbers ranging from 1 - 9.}
+\item{design}{Design matrix to produce values}
 
-\item{species}{4-letter banding code for the desired species}
+\item{quantiles}{Vector of quantiles to return bootstrapped point estimates of}
 
-\item{od}{Ordinal day, numeric digit in the range (1,365)}
+\item{samples}{Number of bootstrap samples. Defaults to 1000}
 
-\item{tssr}{Time since sunrise, numeric digit in the range (-10,10)}
-
-\item{pairwise}{If FALSE (default), returns a cue rate for every combination of OD and TSSR supplied;
-if TRUE, returns cue rate for each OD/TSSR pair (and so length(od) must equal length(tssr))}
+\item{model}{Which modelling technique, "rem" or "dis"}
 }
 \value{
 Numeric cue rate for species
 }
 \description{
-\code{bootstrap} calculates the cue rate for the supplied species, given the desired model,
-ordinal day, and time since sunrise.
+\code{bootstrap} calculates a bootstrapped distribution for either cue rate or effective
+  detection radius. Internal function.
 }
 \examples{
 

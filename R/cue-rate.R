@@ -4,7 +4,7 @@
 #' ordinal day, and time since sunrise.
 #'
 #' @param species 4-letter banding code for the desired species
-#' @param model Numeric or vector of model numbers ranging from 1 - 9.
+#' @param model Numeric or vector of model numbers ranging from 1 - 9. Can also use string "best" for best model chosen by AIC.
 #' @param od Ordinal day, numeric digit or vector
 #' @param tssr Time since sunrise, numeric digit or vector
 #' @param pairwise If FALSE (default), returns a cue rate for every combination of OD and TSSR supplied;
@@ -12,9 +12,32 @@
 #' @param quantiles Optional range of quantiles to calculate bootstrapped uncertainty about the estimate. Defaults to NULL
 #' @param samples Number of bootstrap samples if bootstrapped uncertainty is to be calculated. Defaults to 1000
 #'
+#' @importFrom stats median
+#' @importFrom rappdirs app_dir
+#'
 #' @return Numeric cue rate for species
 #'
 #' @examples
+#' # Get the cue rate for American Robin ("AMRO"), using the best model
+#' #   on June 1 (OD = 153), 1 hour after sunrise.
+#' cue_rate(species = "AMRO",
+#'          model = "best",
+#'          od = 153,
+#'          tssr = 1)
+#'
+#' # Same as previous example, but this time with uncertainty, for model 7
+#' cue_rate(species = "AMRO",
+#'          model = 7,
+#'          od = 153,
+#'          tssr = 1,
+#'          quantiles = c(0.025, 0.975))
+#'
+#' # Cue rate for multiple species, multiple days, multiple models
+#' cue_rate(species = c("AMRO", "AMGO", "BCCH", "SCTA"),
+#'          model = c(1,4,6,7,8),
+#'          od = seq(90, 180, by = 2),
+#'          tssr = 1,
+#'          quantiles = c(0.025, 0.975))
 #'
 #' @export
 #'
@@ -85,12 +108,12 @@ cue_rate <- function(species = NULL,
   }
 
   design <- sim_data
-  tssr_median <- median(covariates_removal(project = FALSE,
+  tssr_median <- stats::median(covariates_removal(project = FALSE,
                                            species = species)$TSSR)
   design$TSSR <- (design$TSSR - tssr_median) / 24
   design$TSSR2 <- design$TSSR ^ 2
 
-  od_sp_median <- median(covariates_removal(project = FALSE,
+  od_sp_median <- stats::median(covariates_removal(project = FALSE,
                                             species = species)$OD)
   design$OD <- (design$OD - od_sp_median) / 365
   design$OD2 <- design$OD ^ 2

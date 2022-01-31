@@ -17,7 +17,7 @@ cue_rate(
 \arguments{
 \item{species}{4-letter banding code for the desired species}
 
-\item{model}{Numeric or vector of model numbers ranging from 1 - 9.}
+\item{model}{Numeric or vector of model numbers ranging from 1 - 9. Can also use string "best" for best model chosen by AIC.}
 
 \item{od}{Ordinal day, numeric digit or vector}
 
@@ -38,5 +38,25 @@ Numeric cue rate for species
 ordinal day, and time since sunrise.
 }
 \examples{
+# Get the cue rate for American Robin ("AMRO"), using the best model
+#   on June 1 (OD = 153), 1 hour after sunrise.
+cue_rate(species = "AMRO",
+         model = "best",
+         od = 153,
+         tssr = 1)
+
+# Same as previous example, but this time with uncertainty, for model 7
+cue_rate(species = "AMRO",
+         model = 7,
+         od = 153,
+         tssr = 1,
+         quantiles = c(0.025, 0.975))
+
+# Cue rate for multiple species, multiple days, multiple models
+cue_rate(species = c("AMRO", "AMGO", "BCCH", "SCTA"),
+         model = c(1,4,6,7,8),
+         od = seq(90, 180, by = 2),
+         tssr = 1,
+         quantiles = c(0.025, 0.975))
 
 }

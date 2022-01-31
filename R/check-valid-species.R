@@ -1,7 +1,10 @@
 #' Check if the species exists in the NA-POPS database
 #'
-#' \code{check_valid_species} is an internal function that checks for the existance of
+#' \code{check_valid_species} is an internal function that checks for the existence of
 #'   the species in the NA-POPS database, given the removal or distance modelling
+#'
+#' @param species Species 4 letter code
+#' @param mod "dis" or "rem"
 #'
 #' @importFrom DBI dbGetQuery
 #'

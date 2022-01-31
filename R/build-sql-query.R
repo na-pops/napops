@@ -3,6 +3,10 @@
 #' \code{build_sql_query} is an internal function that builds the SQL query to search
 #'   the database for most tables
 #'
+#' @param base Base search string
+#' @param species Species to add to search string
+#' @param model Model to add to search string
+#'
 #' @return String of SQL query
 #'
 

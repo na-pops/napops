@@ -4,20 +4,21 @@
 \alias{covariates_removal}
 \title{Get covariate space for removal modelling}
 \usage{
-covariates_removal(project = TRUE, species = NULL)
+covariates_removal(species = NULL, all = FALSE)
 }
 \arguments{
-\item{project}{If TRUE, will return the set of covariates that were associated
-with each sampling event in the project; otherwise, will return the covariate matrix
-used for each selected species}
-
 \item{species}{4-letter banding code (or vector of) for the desired species.
-Not needed/ignored if project = TRUE}
+Not needed/ignored if all = TRUE}
+
+\item{all}{If TRUE, will return the set of covariates that were associated
+with each sampling event in the entire NA-POPS database; otherwise, will return the covariate matrix
+used for each selected species. Defaults to FALSE}
 }
 \value{
 Dataframe of covariates with the following entries:
   \item{OD}{Ordinal Day}
   \item{TSSR}{Time Since Sunrise}
+  \item{Method}{Removal sampling method}
 }
 \description{
 \code{covariates_removal} returns a dataframe of covariates that were associated
@@ -25,6 +26,10 @@ Dataframe of covariates with the following entries:
 }
 \examples{
 
-rem_covars <- covariates_removal()
+# Get covariates used for Wood Thrush
+rem_covars <- covariates_removal(species = "WOTH")
+
+# Get covariates for entire NA-POPS project
+rem_covars_all <- covariates_removal(all = TRUE)
 
 }

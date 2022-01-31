@@ -6,6 +6,13 @@
 \usage{
 build_sql_query(base = NULL, species = NULL, model = NULL)
 }
+\arguments{
+\item{base}{Base search string}
+
+\item{species}{Species to add to search string}
+
+\item{model}{Model to add to search string}
+}
 \value{
 String of SQL query
 }

@@ -6,10 +6,15 @@
 \usage{
 check_valid_species(species = NULL, mod = NULL)
 }
+\arguments{
+\item{species}{Species 4 letter code}
+
+\item{mod}{"dis" or "rem"}
+}
 \value{
 None
 }
 \description{
-\code{check_valid_species} is an internal function that checks for the existance of
+\code{check_valid_species} is an internal function that checks for the existence of
   the species in the NA-POPS database, given the removal or distance modelling
 }

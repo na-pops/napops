@@ -4,7 +4,6 @@
 #'   are updated NA-POPS results compared to what is stored locally
 #'
 #' @importFrom rappdirs app_dir
-#' @importFrom utils download.file
 #'
 #' @return None
 #'

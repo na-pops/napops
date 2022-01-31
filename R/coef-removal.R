@@ -6,6 +6,8 @@
 #' @param species 4-letter banding code for the desired species
 #' @param model Numeric or vector of model numbers ranging from 1 - 9.
 #'
+#' @importFrom DBI dbGetQuery
+#'
 #' @return Dataframe of coefficients for all species and removal models selected
 #'
 #' @examples

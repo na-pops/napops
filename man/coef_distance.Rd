@@ -24,7 +24,7 @@ coefs <- coef_distance(species = "AMRO", model = 1)
 
 # Get coefficients for all distance models for American Robin (AMRO)
 # Option 1
-coefs <- coef_distance(species = "AMRO", model = seq(1,9))
+coefs <- coef_distance(species = "AMRO", model = seq(1,5))
 # Option 2
 coefs <- coef_distance(species = "AMRO")
 

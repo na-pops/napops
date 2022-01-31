@@ -6,6 +6,11 @@
 \usage{
 check_valid_model(model = NULL, mod = NULL)
 }
+\arguments{
+\item{model}{Model number}
+
+\item{mod}{"dis" or "rem"}
+}
 \value{
 None
 }

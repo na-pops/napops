@@ -3,11 +3,14 @@
 #' \code{check_valid_model} is an internal function that checks for validity in the
 #'   model arguments
 #'
+#' @param model Model number
+#' @param mod "dis" or "rem"
+#'
 #' @return None
 #'
 
 check_valid_model <- function(model = NULL,
-                                mod = NULL)
+                              mod = NULL)
 {
   if (mod == "dis")
   {

@@ -1,16 +1,17 @@
-#' Get cue rate for a species
+#' Bootstrap estimates, internal function
 #'
-#' \code{bootstrap} calculates the cue rate for the supplied species, given the desired model,
-#' ordinal day, and time since sunrise.
+#' \code{bootstrap} calculates a bootstrapped distribution for either cue rate or effective
+#'   detection radius. Internal function.
 #'
-#' @param species 4-letter banding code for the desired species
-#' @param model Numeric or vector of model numbers ranging from 1 - 9.
-#' @param od Ordinal day, numeric digit in the range (1,365)
-#' @param tssr Time since sunrise, numeric digit in the range (-10,10)
-#' @param pairwise If FALSE (default), returns a cue rate for every combination of OD and TSSR supplied;
-#'   if TRUE, returns cue rate for each OD/TSSR pair (and so length(od) must equal length(tssr))
-#' @param quantiles Optional range of quantiles to calculate bootstrapped uncertainty about the estimate. Defaults to NULL
-#' @param samples Number of bootstrap samples if bootstrapped uncertainty is to be calculated. Defaults to 1000
+#' @param vcv Variance-covariance matrix
+#' @param coefficients Point estimates of coefficients to bootstrap around
+#' @param design Design matrix to produce values
+#' @param quantiles Vector of quantiles to return bootstrapped point estimates of
+#' @param samples Number of bootstrap samples. Defaults to 1000
+#' @param model Which modelling technique, "rem" or "dis"
+#'
+#' @importFrom MASS mvrnorm
+#' @importFrom stats quantile
 #'
 #' @return Numeric cue rate for species
 #'
@@ -94,7 +95,7 @@ bootstrap <- function(vcv = NULL,
     {
       phi_quantiles[,q] <- as.numeric(apply(phi_pred,
                                        1,
-                                       quantile,
+                                       stats::quantile,
                                        probs = c(quantiles[q]),
                                        na.rm = TRUE))
     }

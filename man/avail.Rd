@@ -18,7 +18,7 @@ avail(
 \arguments{
 \item{species}{4-letter banding code for the desired species}
 
-\item{model}{Numeric or vector of model numbers ranging from 1 - 9.}
+\item{model}{Numeric or vector of model numbers ranging from 1 - 9. Can also use string "best" for best model chosen by AIC.}
 
 \item{od}{Ordinal day, numeric digit or vector}
 
@@ -41,5 +41,28 @@ Probability of availability
   a cue within a maximum time range, given the day of the year and time of day.
 }
 \examples{
+# Get the probability of availability for American Robin ("AMRO"), using the best model
+#   on June 1 (OD = 153), 1 hour after sunrise, for a survey of 5 minutes.
+avail(species = "AMRO",
+      model = "best",
+      od = 153,
+      tssr = 1,
+      time = 5)
+
+# Same as previous example, but this time with uncertainty, for model 7
+avail(species = "AMRO",
+      model = 7,
+      od = 153,
+      tssr = 1,
+      time = 5,
+      quantiles = c(0.025, 0.975))
+
+# Availability for multiple species, multiple days, multiple models
+avail(species = c("AMRO", "AMGO", "BCCH", "SCTA"),
+      model = c(1,4,6,7,8),
+      od = seq(90, 180, by = 2),
+      tssr = 1,
+      time = 5,
+      quantiles = c(0.025, 0.975))
 
 }
