@@ -17,13 +17,13 @@
 #'   \item{Method}{Removal sampling method}
 #'
 #' @examples
-#'
+#' \dontrun{
 #' # Get covariates used for Wood Thrush
 #' rem_covars <- covariates_removal(species = "WOTH")
 #'
 #' # Get covariates for entire NA-POPS project
 #' rem_covars_all <- covariates_removal(all = TRUE)
-#'
+#' }
 #' @export
 #'
 
@@ -47,7 +47,7 @@ covariates_removal <- function(species = NULL,
                                   species = species)
   }
 
-  df <- DBI::dbGetQuery(conn = napops:::napops_db,
+  df <- DBI::dbGetQuery(conn = napops_db,
                         statement = sql_string)
 
   return(df)

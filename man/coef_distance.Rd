@@ -19,6 +19,7 @@ Dataframe of coefficients for all species and distance models selected
   distance model combinations.
 }
 \examples{
+\dontrun{
 # Get coefficients for distance model 1 for American Robin (AMRO)
 coefs <- coef_distance(species = "AMRO", model = 1)
 
@@ -38,5 +39,6 @@ coefs <- coef_distance(model = 5)
 
 # Get coefficients for all species, for all distance models
 coefs <- coef_distance()
+}
 
 }

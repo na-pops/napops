@@ -38,6 +38,7 @@ Numeric cue rate for species
 ordinal day, and time since sunrise.
 }
 \examples{
+\dontrun{
 # Get the cue rate for American Robin ("AMRO"), using the best model
 #   on June 1 (OD = 153), 1 hour after sunrise.
 cue_rate(species = "AMRO",
@@ -58,5 +59,5 @@ cue_rate(species = c("AMRO", "AMGO", "BCCH", "SCTA"),
          od = seq(90, 180, by = 2),
          tssr = 1,
          quantiles = c(0.025, 0.975))
-
+}
 }

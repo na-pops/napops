@@ -21,8 +21,8 @@ Data frame with the following columns
   and the sample size for each.
 }
 \examples{
-
+\dontrun{
 # Get a list of species modelled in NA-POPS
 sp <- list_species()
-
+}
 }

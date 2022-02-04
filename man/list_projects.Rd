@@ -15,8 +15,8 @@ Data frame with the following columns
 \code{list_projects} returns a data frame of all projects used for NA-POPS analysis.
 }
 \examples{
-
+\dontrun{
 # Get a list of projects in NA-POPS
 projects <- list_projects()
-
+}
 }

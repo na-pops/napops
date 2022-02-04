@@ -16,11 +16,11 @@ Numerical value of maximum survey time, in minutes
 \code{max_survey_time} returns the maximum survey time, in minutes, for the specified survey code
 }
 \examples{
-
+\dontrun{
 # Return maximum survey time for code "A"
 max_survey_time(code = "A")
 
 # If you provide a survey code that doesn't exist, you'll get an error
 max_survey_time(code = "QH")
-
+}
 }

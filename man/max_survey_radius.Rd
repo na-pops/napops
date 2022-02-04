@@ -16,11 +16,11 @@ Numerical value of maximum survey radius, in metres
 \code{max_survey_radius} returns the maximum survey radius, in metres, for the specified survey code
 }
 \examples{
-
+\dontrun{
 # Return maximum survey radius for code "A"
 max_survey_radius(code = "A")
 
 # If you provide a survey code that doesn't exist, you'll get an error
 max_survey_radius(code = "QH")
-
+}
 }

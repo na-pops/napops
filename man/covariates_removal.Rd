@@ -25,11 +25,11 @@ Dataframe of covariates with the following entries:
   with each sampling event in NA-POPS.
 }
 \examples{
-
+\dontrun{
 # Get covariates used for Wood Thrush
 rem_covars <- covariates_removal(species = "WOTH")
 
 # Get covariates for entire NA-POPS project
 rem_covars_all <- covariates_removal(all = TRUE)
-
+}
 }

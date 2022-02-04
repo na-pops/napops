@@ -11,6 +11,7 @@
 #' @return Dataframe of coefficients for all species and distance models selected
 #'
 #' @examples
+#' \dontrun{
 #' # Get coefficients for distance model 1 for American Robin (AMRO)
 #' coefs <- coef_distance(species = "AMRO", model = 1)
 #'
@@ -30,6 +31,7 @@
 #'
 #' # Get coefficients for all species, for all distance models
 #' coefs <- coef_distance()
+#'}
 #'
 #' @export
 #'
@@ -73,7 +75,7 @@ coef_distance <- function(species = NULL,
                                 species = species,
                                 model = model)
 
-  df <- DBI::dbGetQuery(conn = napops:::napops_db,
+  df <- DBI::dbGetQuery(conn = napops_db,
                         statement = sql_string)
 
   names(df) <- c("Species", "N", "Model", "AIC", "Intercept", "Road", "Forest", "RoadForest")

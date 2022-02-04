@@ -15,7 +15,7 @@
 #' @importFrom DBI dbGetQuery
 #'
 #' @examples
-#'
+#' \dontrun{
 #' # Get the spatial coverage for the entire NA-POPS project
 #' napops_spatial <- spatial_coverage()
 #'
@@ -24,7 +24,7 @@
 #'
 #' #' # Get the spatial coverage for Scarlet Tanager removal sampling
 #' scta_rem_spatial <- spatial_coverage(model = "rem", species = "SCTA")
-#'
+#' }
 #' @export
 #'
 
@@ -34,7 +34,7 @@ spatial_coverage <- function(model = "all",
   sf::sf_use_s2(FALSE)
 
   # Do initial data checking
-  napops:::check_data_exists()
+  check_data_exists()
   if (isFALSE(model %in% c("rem", "dis", "all")))
   {
     stop("Invalid model.")
@@ -61,15 +61,15 @@ spatial_coverage <- function(model = "all",
   {
     sql_string <- paste0(sql_string,
                          "SELECT Species, BCR, ncounts, nc_cat FROM dis_bcr")
-    sql_string <- napops:::build_sql_query(base = sql_string, species = species)
+    sql_string <- build_sql_query(base = sql_string, species = species)
   }else if (model == "rem")
   {
     sql_string <- paste0(sql_string,
                          "SELECT Species, BCR, ncounts, nc_cat FROM rem_bcr")
-    sql_string <- napops:::build_sql_query(base = sql_string, species = species)
+    sql_string <- build_sql_query(base = sql_string, species = species)
   }
 
-  df <- DBI::dbGetQuery(conn = napops:::napops_db,
+  df <- DBI::dbGetQuery(conn = napops_db,
                         statement = sql_string)
 
   map <- sf::read_sf(dsn = system.file("maps",

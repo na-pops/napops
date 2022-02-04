@@ -5,7 +5,7 @@
   # Create napops directory on disk if it doesn't exist
   if (isFALSE(file.exists(napops_dir$data())))
   {
-    message(paste0("Creating data directory at ", napops_dir$data()))
+    packageStartupMessage(paste0("Creating data directory at ", napops_dir$data()))
     dir.create(napops_dir$data(), recursive = TRUE)
   }
 
@@ -17,9 +17,9 @@
   # Check if any data has been downloaded before
   if (isFALSE(file.exists(paste0(napops_dir$data(), "/date.txt"))))
   {
-    message("NA-POPS database not yet loaded.\nUse fetch_data() to download NA-POPS data.")
+    packageStartupMessage("NA-POPS database not yet loaded.\nUse fetch_data() to download NA-POPS data.")
   }else
   {
-    message("Connected to NA-POPS Database.")
+    packageStartupMessage("Connected to NA-POPS Database.")
   }
 }

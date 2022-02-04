@@ -23,10 +23,11 @@ List with the following entries:
 \code{survey_info} returns a list of attributes associated with the survey method code.
 }
 \examples{
-
+\dontrun{
 # Look up survey information for removal survey method "R"
 survey_info(code = "R", model = "rem")
 
 # Look up survey information for distance survey method "AA"
 survey_info(code = "AA", model = "dis")
+}
 }

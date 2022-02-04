@@ -18,7 +18,7 @@
 #' @return Numeric effective detection radius for species
 #'
 #' @examples
-#'
+#' \dontrun{
 #' # Get the effective detection radius for American Robin ("AMRO"), using the best model
 #' #   for a roadside survey with 100% forest coverage
 #' edr(species = "AMRO",
@@ -39,7 +39,7 @@
 #'     road = TRUE,
 #'     forest = seq(0, 1, by = 0.1)
 #'     quantiles = c(0.025, 0.975))
-#'
+#'}
 #' @export
 #'
 
@@ -51,6 +51,15 @@ edr <- function(species = NULL,
                 quantiles = NULL,
                 samples = 1000)
 {
+  dis_vcv_list <- NULL
+  rm(dis_vcv_list)
+
+  napops_dir <- NULL
+  rm(napops_dir)
+
+  roadside <- NULL
+  rm(roadside)
+
   # Do initial data checking
   check_data_exists()
 
@@ -72,7 +81,7 @@ edr <- function(species = NULL,
     }
   }
 
-  sp_covars <- napops:::covariates_distance(species = species)
+  sp_covars <- covariates_distance(species = species)
 
   if (!is.null(forest))
   {
@@ -123,12 +132,12 @@ edr <- function(species = NULL,
     load(paste0(rappdirs::app_dir(appname = "napops")$data(),
                 "/dis_vcv.rda"))
     vcv <- dis_vcv_list[[model]][[species]]
-    bootstrap_df <- napops:::bootstrap(vcv = vcv,
-                                      coefficients = coefficients,
-                                      design = design,
-                                      quantiles = quantiles,
-                                      samples = samples,
-                                      model = "dis")
+    bootstrap_df <- bootstrap(vcv = vcv,
+                              coefficients = coefficients,
+                              design = design,
+                              quantiles = quantiles,
+                              samples = samples,
+                              model = "dis")
 
     return(cbind(sim_data[, c("Road", "Forest")], bootstrap_df))
   }

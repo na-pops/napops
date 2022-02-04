@@ -27,10 +27,11 @@ Dataframe of covariates with the following entries:
 }
 \examples{
 
+\dontrun{
 # Get covariates used for Wood Thrush
 dis_covars <- covariates_distance(species = "WOTH")
 
 # Get covariates for entire NA-POPS project
 dis_covars_all <- covariates_distance(all = TRUE)
-
+}
 }

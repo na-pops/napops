@@ -19,12 +19,13 @@
 #'
 #' @examples
 #'
+#' \dontrun{
 #' # Get covariates used for Wood Thrush
 #' dis_covars <- covariates_distance(species = "WOTH")
 #'
 #' # Get covariates for entire NA-POPS project
 #' dis_covars_all <- covariates_distance(all = TRUE)
-#'
+#' }
 #' @export
 #'
 
@@ -48,7 +49,7 @@ covariates_distance <- function(species = NULL,
                                   species = species)
   }
 
-  df <- DBI::dbGetQuery(conn = napops:::napops_db,
+  df <- DBI::dbGetQuery(conn = napops_db,
                         statement = sql_string)
 
   return(df)

@@ -41,6 +41,7 @@ Probability of availability
   a cue within a maximum time range, given the day of the year and time of day.
 }
 \examples{
+\dontrun{
 # Get the probability of availability for American Robin ("AMRO"), using the best model
 #   on June 1 (OD = 153), 1 hour after sunrise, for a survey of 5 minutes.
 avail(species = "AMRO",
@@ -64,5 +65,7 @@ avail(species = c("AMRO", "AMGO", "BCCH", "SCTA"),
       tssr = 1,
       time = 5,
       quantiles = c(0.025, 0.975))
+
+ }
 
 }

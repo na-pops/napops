@@ -33,6 +33,3 @@ Numeric cue rate for species
 \code{bootstrap} calculates a bootstrapped distribution for either cue rate or effective
   detection radius. Internal function.
 }
-\examples{
-
-}

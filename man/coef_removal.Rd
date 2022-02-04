@@ -19,7 +19,7 @@ Dataframe of coefficients for all species and removal models selected
   removal model combinations.
 }
 \examples{
-
+\dontrun{
 # Get coefficients for removal model 1 for American Robin (AMRO)
 coefs <- coef_removal(species = "AMRO", model = 1)
 
@@ -39,5 +39,6 @@ coefs <- coef_removal(model = 9)
 
 # Get coefficients for all species, for all removal models
 coefs <- coef_removal()
+}
 
 }

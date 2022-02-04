@@ -39,7 +39,7 @@ Numeric effective detection radius for species
 roadside status, and forest coverage.
 }
 \examples{
-
+\dontrun{
 # Get the effective detection radius for American Robin ("AMRO"), using the best model
 #   for a roadside survey with 100\% forest coverage
 edr(species = "AMRO",
@@ -60,5 +60,5 @@ edr(species = c("AMRO", "AMGO", "BCCH", "SCTA"),
     road = TRUE,
     forest = seq(0, 1, by = 0.1)
     quantiles = c(0.025, 0.975))
-
+}
 }

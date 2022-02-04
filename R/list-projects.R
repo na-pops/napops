@@ -9,15 +9,15 @@
 #'   \item{Project}{Name of the project}
 #'
 #' @examples
-#'
+#' \dontrun{
 #' # Get a list of projects in NA-POPS
 #' projects <- list_projects()
-#'
+#' }
 #' @export
 #'
 
 list_projects <- function()
 {
-  return(DBI::dbGetQuery(conn = napops:::napops_db,
+  return(DBI::dbGetQuery(conn = napops_db,
                          statement = "SELECT * from projects"))
 }

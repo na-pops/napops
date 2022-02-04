@@ -22,7 +22,7 @@ Simple Features (sf) object for select model x species combination
   coverage for all species
 }
 \examples{
-
+\dontrun{
 # Get the spatial coverage for the entire NA-POPS project
 napops_spatial <- spatial_coverage()
 
@@ -31,5 +31,5 @@ amro_dis_spatial <- spatial_coverage(model = "dis", species = "AMRO")
 
 #' # Get the spatial coverage for Scarlet Tanager removal sampling
 scta_rem_spatial <- spatial_coverage(model = "rem", species = "SCTA")
-
+}
 }

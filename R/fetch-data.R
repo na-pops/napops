@@ -14,15 +14,18 @@
 #' @return None
 #'
 #' @examples
-#'
+#' \dontrun{
 #' # Fetch NA-POPS data from Github repository and save to disk
 #' fetch_data()
-#'
+#' }
 #' @export
 #'
 
 fetch_data <- function()
 {
+  rem_aic <- NULL; rm(rem_aic)
+  dis_aic <- NULL; rm(dis_aic)
+  bcr_coverage <- NULL; rm(bcr_coverage)
   quiet <- TRUE
   napops_dir <- rappdirs::app_dir(appname = "napops")
 
@@ -150,7 +153,7 @@ fetch_data <- function()
 
   # Add rem AIC tables to db
   load(paste0(temp_dir, "/rem_aic.rda"))
-  DBI::dbWriteTable(conn = napops:::napops_db,
+  DBI::dbWriteTable(conn = napops_db,
                     name = "rem_aic",
                     value = data.frame(dplyr::bind_rows(rem_aic,
                                              .id = "Species")),
@@ -158,7 +161,7 @@ fetch_data <- function()
 
   # Add dis AIC table to db
   load(paste0(temp_dir, "/dis_aic.rda"))
-  DBI::dbWriteTable(conn = napops:::napops_db,
+  DBI::dbWriteTable(conn = napops_db,
                     name = "dis_aic",
                     value = data.frame(dplyr::bind_rows(dis_aic,
                                                         .id = "Species")),
@@ -168,7 +171,7 @@ fetch_data <- function()
   coef <- utils::read.csv(paste0(temp_dir, "/removal.csv"))
   names(coef) <- c("Species", "N", "Model", "AIC", "Intercept", "TSSR", "TSSR2",
                    "OD", "OD2")
-  DBI::dbWriteTable(conn = napops:::napops_db,
+  DBI::dbWriteTable(conn = napops_db,
                     name = "rem_coef",
                     value = coef,
                     overwrite = TRUE)
@@ -177,7 +180,7 @@ fetch_data <- function()
   coef <- utils::read.csv(paste0(temp_dir, "/distance.csv"))
   names(coef) <- c("Species", "N", "Model", "AIC", "Intercept", "Road", "Forest",
                    "RoadForest")
-  DBI::dbWriteTable(conn = napops:::napops_db,
+  DBI::dbWriteTable(conn = napops_db,
                     name = "dis_coef",
                     value = coef,
                     overwrite = TRUE)
@@ -185,7 +188,7 @@ fetch_data <- function()
   # Add dis_covars table to db
   load(paste0(temp_dir, "/dis_covars.rda"))
   names(dis_covars) <- c("Forest", "Road", "Survey_Method")
-  DBI::dbWriteTable(conn = napops:::napops_db,
+  DBI::dbWriteTable(conn = napops_db,
                     name = "dis_covars",
                     value = dis_covars,
                     overwrite = TRUE)
@@ -195,7 +198,7 @@ fetch_data <- function()
   dis_species_summary <- dplyr::bind_rows(dis_species_summary,
                                           .id = "Species")
   names(dis_species_summary) <- c("Species", "Forest", "Road", "Survey_Method")
-  DBI::dbWriteTable(conn = napops:::napops_db,
+  DBI::dbWriteTable(conn = napops_db,
                     name = "dis_species_summary",
                     value = dis_species_summary,
                     overwrite = TRUE)
@@ -203,7 +206,7 @@ fetch_data <- function()
   # Add dis_covars table to db
   load(paste0(temp_dir, "/rem_covars.rda"))
   names(rem_covars) <- c("OD", "TSSR", "Survey_Method")
-  DBI::dbWriteTable(conn = napops:::napops_db,
+  DBI::dbWriteTable(conn = napops_db,
                     name = "rem_covars",
                     value = rem_covars,
                     overwrite = TRUE)
@@ -213,7 +216,7 @@ fetch_data <- function()
   rem_species_summary <- dplyr::bind_rows(rem_species_summary,
                                           .id = "Species")
   names(rem_species_summary) <- c("Species", "OD", "TSSR", "Survey_Method")
-  DBI::dbWriteTable(conn = napops:::napops_db,
+  DBI::dbWriteTable(conn = napops_db,
                     name = "rem_species_summary",
                     value = rem_species_summary,
                     overwrite = TRUE)
@@ -222,14 +225,14 @@ fetch_data <- function()
   sp_table <- utils::read.csv(paste0(temp_dir, "/species_table.csv"))
   names(sp_table) <- c("Species", "Common_Name", "Scientific_Name", "Family", "Removal",
                        "Distance")
-  DBI::dbWriteTable(conn = napops:::napops_db,
+  DBI::dbWriteTable(conn = napops_db,
                     name = "species",
                     value = sp_table,
                     overwrite = TRUE)
 
   # Add project_list table to db
   project_list <- utils::read.csv(paste0(temp_dir, "/project_list.csv"))
-  DBI::dbWriteTable(conn = napops:::napops_db,
+  DBI::dbWriteTable(conn = napops_db,
                     name = "projects",
                     value = project_list,
                     overwrite = TRUE)
@@ -238,7 +241,7 @@ fetch_data <- function()
   load(paste0(temp_dir, "/dis_coverage_bcr.rda"))
   bcr_dis_coverage <- dplyr::bind_rows(bcr_dis_coverage,
                                           .id = "Species")
-  DBI::dbWriteTable(conn = napops:::napops_db,
+  DBI::dbWriteTable(conn = napops_db,
                     name = "dis_bcr",
                     value = bcr_dis_coverage,
                     overwrite = TRUE)
@@ -247,14 +250,14 @@ fetch_data <- function()
   load(paste0(temp_dir, "/rem_coverage_bcr.rda"))
   bcr_rem_coverage <- dplyr::bind_rows(bcr_rem_coverage,
                                        .id = "Species")
-  DBI::dbWriteTable(conn = napops:::napops_db,
+  DBI::dbWriteTable(conn = napops_db,
                     name = "rem_bcr",
                     value = bcr_rem_coverage,
                     overwrite = TRUE)
 
   # Add rem_coverage_bcr to db
   load(paste0(temp_dir, "/project_coverage_bcr.rda"))
-  DBI::dbWriteTable(conn = napops:::napops_db,
+  DBI::dbWriteTable(conn = napops_db,
                     name = "project_coverage",
                     value = bcr_coverage,
                     overwrite = TRUE)

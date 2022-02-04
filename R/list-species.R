@@ -15,15 +15,15 @@
 #'   \item{n_distance}{Sample size of species for distance models. Appears only if "both" are selected for model.}
 #'
 #' @examples
-#'
+#' \dontrun{
 #' # Get a list of species modelled in NA-POPS
 #' sp <- list_species()
-#'
+#' }
 #' @export
 #'
 
 list_species <- function()
 {
-  return(DBI::dbGetQuery(conn = napops:::napops_db,
+  return(DBI::dbGetQuery(conn = napops_db,
                          statement = "SELECT * from species"))
 }

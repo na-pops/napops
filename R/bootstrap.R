@@ -15,7 +15,6 @@
 #'
 #' @return Numeric cue rate for species
 #'
-#' @examples
 #'
 
 bootstrap <- function(vcv = NULL,

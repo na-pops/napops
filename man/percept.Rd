@@ -43,6 +43,7 @@ Probability of perceptibility
 }
 \examples{
 
+\dontrun{
 # Get the perceptibility for American Robin ("AMRO"), using the best model
 #   for a roadside survey with 100\% forest coverage, bird is 100m away
 percept(species = "AMRO",
@@ -66,5 +67,5 @@ percept(species = c("AMRO", "AMGO", "BCCH", "SCTA"),
         forest = seq(0, 1, by = 0.1),
         distance = 100)
         quantiles = c(0.025, 0.975))
-
+}
 }

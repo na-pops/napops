@@ -18,6 +18,7 @@
 #' @return Numeric cue rate for species
 #'
 #' @examples
+#'\dontrun{
 #' # Get the cue rate for American Robin ("AMRO"), using the best model
 #' #   on June 1 (OD = 153), 1 hour after sunrise.
 #' cue_rate(species = "AMRO",
@@ -38,7 +39,7 @@
 #'          od = seq(90, 180, by = 2),
 #'          tssr = 1,
 #'          quantiles = c(0.025, 0.975))
-#'
+#' }
 #' @export
 #'
 
@@ -50,6 +51,9 @@ cue_rate <- function(species = NULL,
                      quantiles = NULL,
                      samples = 1000)
 {
+  rem_vcv_list <- NULL
+  rm(rem_vcv_list)
+
   # Do initial data checking
   check_data_exists()
 
@@ -71,8 +75,7 @@ cue_rate <- function(species = NULL,
     }
   }
 
-  sp_covars <- napops:::covariates_removal(project = FALSE,
-                                           species = species)
+  sp_covars <- covariates_removal(species = species)
   if (!is.null(od))
   {
     od_range <- range(sp_covars$OD)
@@ -135,12 +138,12 @@ cue_rate <- function(species = NULL,
     load(paste0(rappdirs::app_dir(appname = "napops")$data(),
                 "/rem_vcv.rda"))
     vcv <- rem_vcv_list[[model]][[species]]
-    bootstrap_df <- napops:::bootstrap(vcv = vcv,
-                                      coefficients = coefficients,
-                                      design = design,
-                                      quantiles = quantiles,
-                                      samples = samples,
-                                      model = "rem")
+    bootstrap_df <- bootstrap(vcv = vcv,
+                              coefficients = coefficients,
+                              design = design,
+                              quantiles = quantiles,
+                              samples = samples,
+                              model = "rem")
 
     return(cbind(sim_data[, c("TSSR", "OD")], bootstrap_df))
   }

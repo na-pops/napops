@@ -16,8 +16,8 @@ the SQLite database. A package-specific directory is created on the user's compu
 directory lives), and NA-POPS data is saved to that directory for use by other functions.
 }
 \examples{
-
+\dontrun{
 # Fetch NA-POPS data from Github repository and save to disk
 fetch_data()
-
+}
 }

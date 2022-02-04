@@ -15,7 +15,9 @@ None
 }
 \examples{
 
+\dontrun{
 # Check for updates to NA-POPS results
 check_for_updates()
+}
 
 }

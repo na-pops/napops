@@ -11,7 +11,7 @@
 #' @return Dataframe of coefficients for all species and removal models selected
 #'
 #' @examples
-#'
+#' \dontrun{
 #' # Get coefficients for removal model 1 for American Robin (AMRO)
 #' coefs <- coef_removal(species = "AMRO", model = 1)
 #'
@@ -31,6 +31,7 @@
 #'
 #' # Get coefficients for all species, for all removal models
 #' coefs <- coef_removal()
+#' }
 #'
 #' @export
 #'
@@ -76,7 +77,7 @@ coef_removal <- function(species = NULL,
                                 species = species,
                                 model = model)
 
-  df <- DBI::dbGetQuery(conn = napops:::napops_db,
+  df <- DBI::dbGetQuery(conn = napops_db,
                         statement = sql_string)
 
   names(df) <- c("Species", "N", "Model", "AIC", "Intercept", "TSSR", "TSSR2", "OD", "OD2")

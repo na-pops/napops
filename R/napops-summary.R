@@ -15,14 +15,16 @@
 #'
 #' @examples
 #'
+#' \dontrun{
 #' # This function can simply be called with
 #' summary <- napops_summary()
-#'
+#' }
 #' @export
 #'
 
 napops_summary <- function()
 {
+  summary_stats <- NULL; rm(summary_stats)
   napops_dir <- rappdirs::app_dir(appname = "napops")
 
   # Check if app directory exists yet

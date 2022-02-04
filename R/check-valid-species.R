@@ -15,13 +15,13 @@ check_valid_species <- function(species = NULL,
                                 mod = NULL)
 {
   sql_string <- "SELECT Species, Removal, Distance FROM species"
-  sql_string <- napops:::build_sql_query(base = sql_string,
+  sql_string <- build_sql_query(base = sql_string,
                                          species = species)
 
   in_db <- ifelse(mod == "rem",
-                  DBI::dbGetQuery(conn = napops:::napops_db,
+                  DBI::dbGetQuery(conn = napops_db,
                                   statement = paste0(sql_string, " AND Removal == 1")),
-                  DBI::dbGetQuery(conn = napops:::napops_db,
+                  DBI::dbGetQuery(conn = napops_db,
                                   statement = paste0(sql_string, " AND Distance == 1")))[[1]]
 
   not_in <- setdiff(species, in_db)

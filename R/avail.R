@@ -16,6 +16,7 @@
 #' @return Probability of availability
 #'
 #' @examples
+#' \dontrun{
 #' # Get the probability of availability for American Robin ("AMRO"), using the best model
 #' #   on June 1 (OD = 153), 1 hour after sunrise, for a survey of 5 minutes.
 #' avail(species = "AMRO",
@@ -39,6 +40,8 @@
 #'       tssr = 1,
 #'       time = 5,
 #'       quantiles = c(0.025, 0.975))
+#'
+#'  }
 #'
 #' @export
 #'

@@ -21,7 +21,8 @@ List with the following entries:
 }
 \examples{
 
+\dontrun{
 # This function can simply be called with
 summary <- napops_summary()
-
+}
 }
