@@ -1,15 +1,12 @@
 #' Fetch NA-POPS modelling results
 #'
 #' \code{fetch_data} downloads all NA-POPS results from the Github repository and assembles
-#' the SQLite databae. A package-specific directory is created on the user's computer
+#' the SQLite database. A package-specific directory is created on the user's computer
 #' (see documentation of \code{rappdirs::appdir} for details of where this
 #' directory lives), and NA-POPS data is saved to that directory for use by other functions.
 #'
-#' @param quiet Logical: should download progress be suppressed? Defaults to TRUE
-#'
 #' @importFrom rappdirs app_dir
-#' @importFrom utils download.file
-#' @importFrom progress progress_bar
+#' @importFrom utils download.file read.csv
 #' @importFrom dplyr bind_rows
 #' @importFrom DBI dbConnect dbWriteTable dbDisconnect
 #' @importFrom RSQLite SQLite
@@ -21,14 +18,12 @@
 #' # Fetch NA-POPS data from Github repository and save to disk
 #' fetch_data()
 #'
-#' # If you'd like to see details of the download, you can specify quiet = FALSE
-#' fetch_data(quiet = FALSE)
-#'
 #' @export
 #'
 
-fetch_data <- function(quiet = TRUE)
+fetch_data <- function()
 {
+  quiet <- TRUE
   napops_dir <- rappdirs::app_dir(appname = "napops")
 
   # Create napops directory on disk if it doesn't exist
@@ -44,113 +39,107 @@ fetch_data <- function(quiet = TRUE)
   ####### Download the data from Github (Task 1/2) #####
 
   message("Downloading results from Github server (Task 1/2)")
-  pb <- progress::progress_bar$new(
-    format = "\r[:bar] :percent eta: :eta",
-    clear = FALSE,
-    total = 15,
-    width = 100)
-  pb$tick(0)
 
   temp_dir <- tempdir()
 
   # Download the date file and save to napops appdir
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/date.txt",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/date.txt",
                 destfile = paste0(napops_dir$data(), "/date.txt"),
                 method = "curl",
                 quiet = quiet)
 
   # Download rem aic and save to temp dir
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/aic/rem_aic.rda",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/aic/rem_aic.rda",
                 destfile = paste0(temp_dir, "/rem_aic.rda"),
                 method = "curl",
                 quiet = quiet)
 
   # Download dis aic and save to temp dir
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/aic/dis_aic.rda",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/aic/dis_aic.rda",
                 destfile = paste0(temp_dir, "/dis_aic.rda"),
                 method = "curl",
                 quiet = quiet)
 
   # Download distance coefficients and save to temp file
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/coefficients/distance.csv",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/coefficients/distance.csv",
                 destfile = paste0(temp_dir, "/distance.csv"),
                 method = "curl",
                 quiet = quiet)
 
   # Download removal coefficients and save to temp file
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/coefficients/removal.csv",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/coefficients/removal.csv",
                 destfile = paste0(temp_dir, "/removal.csv"),
                 method = "curl",
                 quiet = quiet)
 
   # Download dis_covars.rda and save to temp file
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/dis_covars.rda",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/dis_covars.rda",
                 destfile = paste0(temp_dir, "/dis_covars.rda"),
                 method = "curl",
                 quiet = quiet)
 
   # Download dis_species_summary.rda and save to temp file
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/dis_species_summary.rda",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/dis_species_summary.rda",
                 destfile = paste0(temp_dir, "/dis_species_summary.rda"),
                 method = "curl",
                 quiet = quiet)
 
   # Download rem_covars and save to temp file
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/rem_covars.rda",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/rem_covars.rda",
                 destfile = paste0(temp_dir, "/rem_covars.rda"),
                 method = "curl",
                 quiet = quiet)
 
   # Download rem_species_summary.rda and save to temp file
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/rem_species_summary.rda",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/rem_species_summary.rda",
                 destfile = paste0(temp_dir, "/rem_species_summary.rda"),
                 method = "curl",
                 quiet = quiet)
 
   # Download species_table.csv and save to temp file
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/species_table.csv",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/species_table.csv",
                 destfile = paste0(temp_dir, "/species_table.csv"),
                 method = "curl",
                 quiet = quiet)
 
   # Download project_list.csv and save to temp file
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/project_list.csv",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/project_list.csv",
                 destfile = paste0(temp_dir, "/project_list.csv"),
                 method = "curl",
                 quiet = quiet)
 
   # Download summary_statistics.rda and save to napops dir
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/summary_statistics.rda",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/quant-summary/summary_statistics.rda",
                 destfile = paste0(napops_dir$data(), "/summary_statistics.rda"),
                 method = "curl",
                 quiet = quiet)
 
   # Download dis_coverage_bcr.rda and save to temp dir
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/dis_coverage_bcr.rda",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/dis_coverage_bcr.rda",
                 destfile = paste0(temp_dir, "/dis_coverage_bcr.rda"),
                 method = "curl",
                 quiet = quiet)
 
   # Download rem_coverage_bcr.rda and save to temp dir
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/rem_coverage_bcr.rda",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/rem_coverage_bcr.rda",
                 destfile = paste0(temp_dir, "/rem_coverage_bcr.rda"),
                 method = "curl",
                 quiet = quiet)
 
   # Download project_coverage_bcr.rda and save to temp dir
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/project_coverage_bcr.rda",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/project_coverage_bcr.rda",
                 destfile = paste0(temp_dir, "/project_coverage_bcr.rda"),
                 method = "curl",
                 quiet = quiet)
 
   # Download distance covariance matrices and save to napops dir
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/var-covar/dis_vcv_list.rda",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/var-covar/dis_vcv_list.rda",
                 destfile = paste0(napops_dir$data(), "/dis_vcv.rda"),
                 method = "curl",
                 quiet = quiet)
 
   # Download removal covariance matrices and save to napops dir
-  download.file("https://raw.githubusercontent.com/na-pops/results/master/var-covar/rem_vcv_list.rda",
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/var-covar/rem_vcv_list.rda",
                 destfile = paste0(napops_dir$data(), "/rem_vcv.rda"),
                 method = "curl",
                 quiet = quiet)
@@ -176,7 +165,7 @@ fetch_data <- function(quiet = TRUE)
                     overwrite = TRUE)
 
   # Add rem coef table to db
-  coef <- read.csv(paste0(temp_dir, "/removal.csv"))
+  coef <- utils::read.csv(paste0(temp_dir, "/removal.csv"))
   names(coef) <- c("Species", "N", "Model", "AIC", "Intercept", "TSSR", "TSSR2",
                    "OD", "OD2")
   DBI::dbWriteTable(conn = napops:::napops_db,
@@ -185,7 +174,7 @@ fetch_data <- function(quiet = TRUE)
                     overwrite = TRUE)
 
   # Add dis coef table to db
-  coef <- read.csv(paste0(temp_dir, "/distance.csv"))
+  coef <- utils::read.csv(paste0(temp_dir, "/distance.csv"))
   names(coef) <- c("Species", "N", "Model", "AIC", "Intercept", "Road", "Forest",
                    "RoadForest")
   DBI::dbWriteTable(conn = napops:::napops_db,
@@ -230,7 +219,7 @@ fetch_data <- function(quiet = TRUE)
                     overwrite = TRUE)
 
   # Add species_table table to db
-  sp_table <- read.csv(paste0(temp_dir, "/species_table.csv"))
+  sp_table <- utils::read.csv(paste0(temp_dir, "/species_table.csv"))
   names(sp_table) <- c("Species", "Common_Name", "Scientific_Name", "Family", "Removal",
                        "Distance")
   DBI::dbWriteTable(conn = napops:::napops_db,
@@ -239,7 +228,7 @@ fetch_data <- function(quiet = TRUE)
                     overwrite = TRUE)
 
   # Add project_list table to db
-  project_list <- read.csv(paste0(temp_dir, "/project_list.csv"))
+  project_list <- utils::read.csv(paste0(temp_dir, "/project_list.csv"))
   DBI::dbWriteTable(conn = napops:::napops_db,
                     name = "projects",
                     value = project_list,

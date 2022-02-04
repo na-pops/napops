@@ -4,17 +4,14 @@
 \alias{fetch_data}
 \title{Fetch NA-POPS modelling results}
 \usage{
-fetch_data(quiet = TRUE)
-}
-\arguments{
-\item{quiet}{Logical: should download progress be suppressed? Defaults to TRUE}
+fetch_data()
 }
 \value{
 None
 }
 \description{
 \code{fetch_data} downloads all NA-POPS results from the Github repository and assembles
-the SQLite databae. A package-specific directory is created on the user's computer
+the SQLite database. A package-specific directory is created on the user's computer
 (see documentation of \code{rappdirs::appdir} for details of where this
 directory lives), and NA-POPS data is saved to that directory for use by other functions.
 }
@@ -22,8 +19,5 @@ directory lives), and NA-POPS data is saved to that directory for use by other f
 
 # Fetch NA-POPS data from Github repository and save to disk
 fetch_data()
-
-# If you'd like to see details of the download, you can specify quiet = FALSE
-fetch_data(quiet = FALSE)
 
 }

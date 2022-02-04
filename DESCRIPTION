@@ -1,8 +1,8 @@
 Package: napops
 Type: Package
 Title: Point Count Offsets for Population Sizes of North American Landbirds
-Version: 0.20.0
-Date: 2022-01-26
+Version: 0.21.0
+Date: 2022-02-03
 Authors@R: c(person("Brandon P.M.", "Edwards", role = c("aut", "cre"),
                      email = "brandonedwards3@cmail.carleton.ca"))
 Imports:
@@ -12,7 +12,8 @@ Imports:
   RSQLite,
   dplyr,
   MASS,
-  stats
+  stats,
+  sf
 NeedsCompilation: no
 Description: Access point count offsets for North American landbirds.
 License: MIT + file LICENSE

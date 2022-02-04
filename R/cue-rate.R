@@ -108,13 +108,11 @@ cue_rate <- function(species = NULL,
   }
 
   design <- sim_data
-  tssr_median <- stats::median(covariates_removal(project = FALSE,
-                                           species = species)$TSSR)
+  tssr_median <- stats::median(covariates_removal(species = species)$TSSR)
   design$TSSR <- (design$TSSR - tssr_median) / 24
   design$TSSR2 <- design$TSSR ^ 2
 
-  od_sp_median <- stats::median(covariates_removal(project = FALSE,
-                                            species = species)$OD)
+  od_sp_median <- stats::median(covariates_removal(species = species)$OD)
   design$OD <- (design$OD - od_sp_median) / 365
   design$OD2 <- design$OD ^ 2
   design <- design[, c("Intercept", "TSSR", "TSSR2", "OD", "OD2")]

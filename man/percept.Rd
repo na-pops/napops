@@ -2,7 +2,7 @@
 % Please edit documentation in R/percept.R
 \name{percept}
 \alias{percept}
-\title{Get conditional probability of perceiving a bird, given availability}
+\title{Get conditional probability of perceiving a bird, given the bird gives a cue}
 \usage{
 percept(
   species = NULL,
@@ -18,13 +18,13 @@ percept(
 \arguments{
 \item{species}{4-letter banding code for the desired species}
 
-\item{model}{Numeric or vector of model numbers ranging from 1 - 9.}
+\item{model}{Numeric or vector of model numbers ranging from 1 - 5. Can also use string "best" for best model chosen by AIC.}
 
 \item{road}{Survey roadside status, boolean TRUE or FALSE}
 
 \item{forest}{Forest coverage, proportion between 0 and 1}
 
-\item{distance}{Maximum survey distance in metres}
+\item{distance}{Distance to bird in metres}
 
 \item{pairwise}{If FALSE (default), returns perceptibility for every combination of Road and Forest supplied;
 if TRUE, returns perceptibility for each Road/Forest pair (and so length(road) must equal length(forest))}
@@ -43,8 +43,28 @@ Probability of perceptibility
 }
 \examples{
 
-# Get the probability of perceptibility for American Robin ("AMRO"), using Model 2
-# Use only roadside model, and specify offroad surveys
-percept(species = "AMRO", model = 2, road = FALSE, distance = 200)
+# Get the perceptibility for American Robin ("AMRO"), using the best model
+#   for a roadside survey with 100\% forest coverage, bird is 100m away
+percept(species = "AMRO",
+        model = "best",
+        road = TRUE,
+        forest = 1.0,
+        distance = 100)
+
+# Same as previous example, but this time with uncertainty, for model 4
+percept(species = "AMRO",
+        model = 4,
+        road = TRUE,
+        forest = 1.0,
+        distance = 100)
+        quantiles = c(0.025, 0.975))
+
+# Effective detection radius for multiple species, multiple forest coverage, multiple models
+percept(species = c("AMRO", "AMGO", "BCCH", "SCTA"),
+        model = c(1,4,5),
+        road = TRUE,
+        forest = seq(0, 1, by = 0.1),
+        distance = 100)
+        quantiles = c(0.025, 0.975))
 
 }

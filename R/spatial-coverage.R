@@ -1,6 +1,6 @@
 #' Get spatial coverage of NA-POPS data
 #'
-#' \code{get_spatial_covereage} returns a Simple Features(sf) object for the selected
+#' \code{get_spatial_coverage} returns a Simple Features(sf) object for the selected
 #'   model x species combination. This function can also return the overall project
 #'   coverage for all species
 #'
@@ -11,13 +11,25 @@
 #'
 #' @return Simple Features (sf) object for select model x species combination
 #'
+#' @importFrom sf sf_use_s2 read_sf st_as_sf
+#' @importFrom DBI dbGetQuery
+#'
 #' @examples
+#'
+#' # Get the spatial coverage for the entire NA-POPS project
+#' napops_spatial <- spatial_coverage()
+#'
+#' # Get the spatial coverage for American Robin distance sampling
+#' amro_dis_spatial <- spatial_coverage(model = "dis", species = "AMRO")
+#'
+#' #' # Get the spatial coverage for Scarlet Tanager removal sampling
+#' scta_rem_spatial <- spatial_coverage(model = "rem", species = "SCTA")
 #'
 #' @export
 #'
 
 spatial_coverage <- function(model = "all",
-                                 species = NULL)
+                             species = NULL)
 {
   sf::sf_use_s2(FALSE)
 

@@ -17,6 +17,6 @@ Data frame with the following columns
 \examples{
 
 # Get a list of projects in NA-POPS
-sp <- list_projects()
+projects <- list_projects()
 
 }

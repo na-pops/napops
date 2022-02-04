@@ -6,8 +6,15 @@
 #'
 #' @return Numerical value of maximum survey time, in minutes
 #'
+#' @importFrom utils read.csv
+#'
 #' @examples
 #'
+#' # Return maximum survey time for code "A"
+#' max_survey_time(code = "A")
+#'
+#' # If you provide a survey code that doesn't exist, you'll get an error
+#' max_survey_time(code = "QH")
 #'
 #' @export
 #'

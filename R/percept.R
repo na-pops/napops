@@ -1,27 +1,46 @@
-#' Get conditional probability of perceiving a bird, given availability
+#' Get conditional probability of perceiving a bird, given the bird gives a cue
 #'
 #' \code{percept} calculates the conditional probability that a bird is perceived
 #'   by an observer, given that it gives a cue, dependent on the roadside status
 #'   of a survey, forest coverage, and maximum survey distance.
 #'
 #' @param species 4-letter banding code for the desired species
-#' @param model Numeric or vector of model numbers ranging from 1 - 9.
+#' @param model Numeric or vector of model numbers ranging from 1 - 5. Can also use string "best" for best model chosen by AIC.
 #' @param road Survey roadside status, boolean TRUE or FALSE
 #' @param forest Forest coverage, proportion between 0 and 1
-#' @param distance Maximum survey distance in metres
+#' @param distance Distance to bird in metres
 #' @param pairwise If FALSE (default), returns perceptibility for every combination of Road and Forest supplied;
 #'   if TRUE, returns perceptibility for each Road/Forest pair (and so length(road) must equal length(forest))
 #' @param quantiles Optional range of quantiles to calculate bootstrapped uncertainty about the estimate. Defaults to NULL
 #' @param samples Number of bootstrap samples if bootstrapped uncertainty is to be calculated. Defaults to 1000
 #'
-#'
 #' @return Probability of perceptibility
 #'
 #' @examples
 #'
-#' # Get the probability of perceptibility for American Robin ("AMRO"), using Model 2
-#' # Use only roadside model, and specify offroad surveys
-#' percept(species = "AMRO", model = 2, road = FALSE, distance = 200)
+#' # Get the perceptibility for American Robin ("AMRO"), using the best model
+#' #   for a roadside survey with 100% forest coverage, bird is 100m away
+#' percept(species = "AMRO",
+#'         model = "best",
+#'         road = TRUE,
+#'         forest = 1.0,
+#'         distance = 100)
+#'
+#' # Same as previous example, but this time with uncertainty, for model 4
+#' percept(species = "AMRO",
+#'         model = 4,
+#'         road = TRUE,
+#'         forest = 1.0,
+#'         distance = 100)
+#'         quantiles = c(0.025, 0.975))
+#'
+#' # Effective detection radius for multiple species, multiple forest coverage, multiple models
+#' percept(species = c("AMRO", "AMGO", "BCCH", "SCTA"),
+#'         model = c(1,4,5),
+#'         road = TRUE,
+#'         forest = seq(0, 1, by = 0.1),
+#'         distance = 100)
+#'         quantiles = c(0.025, 0.975))
 #'
 #' @export
 #'

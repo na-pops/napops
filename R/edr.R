@@ -4,7 +4,7 @@
 #' roadside status, and forest coverage.
 #'
 #' @param species 4-letter banding code for the desired species
-#' @param model Numeric or vector of model numbers ranging from 1 - 9.
+#' @param model Numeric or vector of model numbers ranging from 1 - 5. Can also use string "best" for best model chosen by AIC.
 #' @param road Survey roadside status, boolean TRUE or FALSE
 #' @param forest Forest coverage, proportion between 0 and 1
 #' @param pairwise If FALSE (default), returns an effective detection radius for
@@ -13,9 +13,32 @@
 #' @param quantiles Optional range of quantiles to calculate bootstrapped uncertainty about the estimate. Defaults to NULL
 #' @param samples Number of bootstrap samples if bootstrapped uncertainty is to be calculated. Defaults to 1000
 #'
+#' @importFrom rappdirs app_dir
+#'
 #' @return Numeric effective detection radius for species
 #'
 #' @examples
+#'
+#' # Get the effective detection radius for American Robin ("AMRO"), using the best model
+#' #   for a roadside survey with 100% forest coverage
+#' edr(species = "AMRO",
+#'     model = "best",
+#'     road = TRUE,
+#'     forest = 1.0)
+#'
+#' # Same as previous example, but this time with uncertainty, for model 4
+#' edr(species = "AMRO",
+#'     model = 4,
+#'     road = TRUE,
+#'     forest = 1.0
+#'     quantiles = c(0.025, 0.975))
+#'
+#' # Effective detection radius for multiple species, multiple forest coverage, multiple models
+#' edr(species = c("AMRO", "AMGO", "BCCH", "SCTA"),
+#'     model = c(1,4,5),
+#'     road = TRUE,
+#'     forest = seq(0, 1, by = 0.1)
+#'     quantiles = c(0.025, 0.975))
 #'
 #' @export
 #'
@@ -49,8 +72,7 @@ edr <- function(species = NULL,
     }
   }
 
-  sp_covars <- napops:::covariates_distance(project = FALSE,
-                                            species = species)
+  sp_covars <- napops:::covariates_distance(species = species)
 
   if (!is.null(forest))
   {

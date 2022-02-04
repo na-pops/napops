@@ -12,9 +12,15 @@
 #'   \item{Max_Interval}{Maximum time or distance considered for this method}
 #'   \item{Units}{"Minutes" if removal model selected, "Metres" if distance model selected}
 #'
+#' @importFrom utils read.csv
+#'
 #' @examples
 #'
+#' # Look up survey information for removal survey method "R"
+#' survey_info(code = "R", model = "rem")
 #'
+#' # Look up survey information for distance survey method "AA"
+#' survey_info(code = "AA", model = "dis")
 #' @export
 #'
 

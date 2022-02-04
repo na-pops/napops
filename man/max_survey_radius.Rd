@@ -17,5 +17,10 @@ Numerical value of maximum survey radius, in metres
 }
 \examples{
 
+# Return maximum survey radius for code "A"
+max_survey_radius(code = "A")
+
+# If you provide a survey code that doesn't exist, you'll get an error
+max_survey_radius(code = "QH")
 
 }

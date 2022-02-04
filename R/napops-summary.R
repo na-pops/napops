@@ -11,6 +11,8 @@
 #'   \item{Projects}{Total number of projects compiled in NA-POPS database}
 #'   \item{Species}{Total number of species that have cue rates or effective detection radius derived}
 #'
+#' @importFrom rappdirs app_dir
+#'
 #' @examples
 #'
 #' # This function can simply be called with

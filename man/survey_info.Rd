@@ -24,5 +24,9 @@ List with the following entries:
 }
 \examples{
 
+# Look up survey information for removal survey method "R"
+survey_info(code = "R", model = "rem")
 
+# Look up survey information for distance survey method "AA"
+survey_info(code = "AA", model = "dis")
 }

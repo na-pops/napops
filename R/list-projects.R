@@ -7,10 +7,11 @@
 #' @return Data frame with the following columns
 #'   \item{Metaproject}{Name of the umbrella organization that hosts several projects}
 #'   \item{Project}{Name of the project}
+#'
 #' @examples
 #'
 #' # Get a list of projects in NA-POPS
-#' sp <- list_projects()
+#' projects <- list_projects()
 #'
 #' @export
 #'
