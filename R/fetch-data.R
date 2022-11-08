@@ -135,6 +135,12 @@ fetch_data <- function()
                 method = "curl",
                 quiet = quiet)
 
+  # Download nproj_coverage_bcr.rda and save to temp dir
+  utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/spatial-summary/nproj_coverage_bcr.rda",
+                       destfile = paste0(temp_dir, "/nproj_coverage_bcr.rda"),
+                       method = "curl",
+                       quiet = quiet)
+
   # Download distance covariance matrices and save to napops dir
   utils::download.file("https://raw.githubusercontent.com/na-pops/results/master/var-covar/dis_vcv_list.rda",
                 destfile = paste0(napops_dir$data(), "/dis_vcv.rda"),
@@ -255,11 +261,18 @@ fetch_data <- function()
                     value = bcr_rem_coverage,
                     overwrite = TRUE)
 
-  # Add rem_coverage_bcr to db
+  # Add project_coverage_bcr to db
   load(paste0(temp_dir, "/project_coverage_bcr.rda"))
   DBI::dbWriteTable(conn = napops_db,
                     name = "project_coverage",
                     value = bcr_coverage,
+                    overwrite = TRUE)
+
+  # Add project_coverage_bcr to db
+  load(paste0(temp_dir, "/nproj_coverage_bcr.rda"))
+  DBI::dbWriteTable(conn = napops_db,
+                    name = "nproj_coverage",
+                    value = bcr_coverage_project,
                     overwrite = TRUE)
 
   message("Connected to NA-POPS Database.")

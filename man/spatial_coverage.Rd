@@ -7,8 +7,8 @@
 spatial_coverage(model = "all", species = NULL)
 }
 \arguments{
-\item{model}{"rem" for removal, "dis" for distance, "all" for overall coverage (default);
-cannot be a vector of models}
+\item{model}{"rem" for removal, "dis" for distance, "nproj" for number of projects per BCR,
+"all" for overall coverage (default); cannot be a vector of models}
 
 \item{species}{4-letter banding code (or vector of) for the desired species.
 Not needed/ignored if model = "all"}

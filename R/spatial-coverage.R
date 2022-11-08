@@ -4,8 +4,8 @@
 #'   model x species combination. This function can also return the overall project
 #'   coverage for all species
 #'
-#' @param model "rem" for removal, "dis" for distance, "all" for overall coverage (default);
-#'   cannot be a vector of models
+#' @param model "rem" for removal, "dis" for distance, "nproj" for number of projects per BCR,
+#'  "all" for overall coverage (default); cannot be a vector of models
 #' @param species 4-letter banding code (or vector of) for the desired species.
 #'   Not needed/ignored if model = "all"
 #'
@@ -35,7 +35,7 @@ spatial_coverage <- function(model = "all",
 
   # Do initial data checking
   check_data_exists()
-  if (isFALSE(model %in% c("rem", "dis", "all")))
+  if (isFALSE(model %in% c("rem", "dis", "all", "nproj")))
   {
     stop("Invalid model.")
   }
@@ -57,6 +57,10 @@ spatial_coverage <- function(model = "all",
   {
     sql_string <- paste0(sql_string,
                          "SELECT BCR, ncounts, nc_cat FROM project_coverage")
+  }else if (model == "nproj")
+  {
+    sql_string <- paste0(sql_string,
+                         "SELECT BCR, ncounts, nc_cat FROM nproj_coverage")
   }else if (model == "dis")
   {
     sql_string <- paste0(sql_string,
