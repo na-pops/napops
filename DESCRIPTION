@@ -1,8 +1,8 @@
 Package: napops
 Type: Package
 Title: Point Count Offsets for Population Sizes of North American Landbirds
-Version: 1.1.1
-Date: 2023-07-20
+Version: 1.1.2
+Date: 2024-07-02
 Authors@R: c(person("Brandon P.M.", "Edwards", role = c("aut", "cre"),
                      email = "brandonedwards3@cmail.carleton.ca"),
               person("Adam C.", "Smith", role = "aut",

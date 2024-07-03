@@ -51,14 +51,14 @@ edr(species = "AMRO",
 edr(species = "AMRO",
     model = 4,
     road = TRUE,
-    forest = 1.0
+    forest = 1.0,
     quantiles = c(0.025, 0.975))
 
 # Effective detection radius for multiple species, multiple forest coverage, multiple models
 edr(species = c("AMRO", "AMGO", "BCCH", "SCTA"),
     model = c(1,4,5),
     road = TRUE,
-    forest = seq(0, 1, by = 0.1)
+    forest = seq(0, 1, by = 0.1),
     quantiles = c(0.025, 0.975))
 }
 }
